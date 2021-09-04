@@ -15,11 +15,10 @@ const rootDirectory = path.join(__dirname, '..', '..');
 const indexRouter = require('../routes/index');
 
 class Server {
-  app;
-  port;
-
   constructor() {
     this.app = express();
+
+    this.server = require('http').createServer(this.app);
 
     // Set the port value
     this.definePort();
@@ -41,7 +40,7 @@ class Server {
    * Get port from environment and store in Express.
    */
   definePort() {
-    this.port = normalizePort(process.env.PORT || '3001');
+    this.port = normalizePort(process.env.PORT || '3000');
     this.app.set('port', this.port);
   }
 
@@ -64,12 +63,14 @@ class Server {
   }
 
   middlewares() {
-    this.app.use(cors());
-    this.app.use(helmet());
-
     this.app.use(logger('dev'));
 
+    this.app.use(cors());
+
+    this.app.use(helmet());
+
     this.app.use(express.json());
+
     this.app.use(express.urlencoded({extended: false}));
 
     this.app.use(cookieParser());
@@ -100,13 +101,9 @@ class Server {
   }
 
   listen() {
-    this.app.listen(this.port, () => {
+    this.server.listen(this.port, () => {
       console.log(`Server runnign on port: ${this.port}`);
     });
-  }
-
-  get app() {
-    return this.app;
   }
 }
 
