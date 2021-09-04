@@ -1,9 +1,9 @@
 /** Imports */
 const path = require('path');
-
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
 const exphbs = require('express-handlebars');
-
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -64,6 +64,9 @@ class Server {
   }
 
   middlewares() {
+    this.app.use(cors());
+    this.app.use(helmet());
+
     this.app.use(logger('dev'));
 
     this.app.use(express.json());
