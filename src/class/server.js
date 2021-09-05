@@ -1,5 +1,7 @@
 /** Imports */
 const path = require('path');
+const {createServer} = require('http');
+const io = require('socket.io');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -14,16 +16,21 @@ const {
 
 const {normalizePort} = require('../helpers/normalizePort');
 
-const rootDirectory = path.join(__dirname, '..', '..');
+const {dbConnection} = require('../database/mongoose-config.db');
+
+const {socketController} = require('../sockets/controller.socket');
 
 const indexRouter = require('../routes/index');
-const {dbConnection} = require('../database/mongoose-config.db');
+
+const rootDirectory = path.join(__dirname, '..', '..');
 
 class Server {
   constructor() {
     this.app = express();
 
-    this.server = require('http').createServer(this.app);
+    this.server = createServer(this.app);
+
+    this.io = io(this.server);
 
     // Connect database
     this.databaseConection();
@@ -42,6 +49,9 @@ class Server {
 
     // Error handler routes
     this.routesHandleError();
+
+    // socket configurations
+    this.sockets();
   }
 
   /**
@@ -120,6 +130,10 @@ class Server {
       res.status(err.status || 500);
       res.render('error', {title: '404-Error'});
     });
+  }
+
+  sockets() {
+    this.io.on('connection', socketController);
   }
 
   listen() {
