@@ -1,8 +1,7 @@
 const {Socket} = require('socket.io');
 
 module.exports = {
-  //TODO: remover = new Socket()
-  socketController: (socket = new Socket()) => {
+  socketController: (socket, io) => {
     socket.on('disconnect', () => {
       console.log('desconectado del socket: ', socket.id);
     });
