@@ -8,17 +8,25 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const {
+  server: {PORT},
+} = require('../../config/config');
+
 const {normalizePort} = require('../helpers/normalizePort');
 
 const rootDirectory = path.join(__dirname, '..', '..');
 
 const indexRouter = require('../routes/index');
+const {dbConnection} = require('../database/mongoose-config.db');
 
 class Server {
   constructor() {
     this.app = express();
 
     this.server = require('http').createServer(this.app);
+
+    // Connect database
+    this.databaseConection();
 
     // Set the port value
     this.definePort();
@@ -37,10 +45,24 @@ class Server {
   }
 
   /**
+   * Database conecction
+   */
+  async databaseConection() {
+    try {
+      await dbConnection();
+    } catch (error) {
+      process.exit(1);
+    }
+  }
+
+  /**
    * Get port from environment and store in Express.
    */
   definePort() {
-    this.port = normalizePort(process.env.PORT || '3000');
+    this.port = normalizePort(PORT);
+    if (!this.port) {
+      throw new Error(`Port is not define`);
+    }
     this.app.set('port', this.port);
   }
 
