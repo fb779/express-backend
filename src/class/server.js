@@ -32,9 +32,6 @@ class Server {
 
     this.io = io(this.server);
 
-    // Connect database
-    this.databaseConection();
-
     // Set the port value
     this.definePort();
 
@@ -52,17 +49,6 @@ class Server {
 
     // socket configurations
     this.sockets();
-  }
-
-  /**
-   * Database conecction
-   */
-  async databaseConection() {
-    try {
-      await dbConnection();
-    } catch (error) {
-      process.exit(1);
-    }
   }
 
   /**
@@ -136,7 +122,11 @@ class Server {
     this.io.on('connection', (socket) => socketController(socket, this.io));
   }
 
-  listen() {
+  async listen() {
+    /** Database conecction */
+    await dbConnection();
+
+    /** Start to listen server */
     this.server.listen(this.port, () => {
       console.log(`Server runnign on port: ${this.port}`);
     });
