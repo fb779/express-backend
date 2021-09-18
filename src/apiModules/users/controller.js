@@ -1,11 +1,11 @@
-const {getUser, getUserList, createUser, updateUser, deleteUser} = require('./dao');
+const {getUser, getUserList, createUser, updateUser, deleteUser, getUserById} = require('./dao');
 
 module.exports = {
   getUser: async (req, res, next) => {
     try {
       const {id = null} = req.params;
 
-      const data = await getUser(id);
+      const data = await getUserById(id);
 
       res.json({data});
     } catch (error) {

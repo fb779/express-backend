@@ -7,22 +7,42 @@ const {DEFAULT_PAGE, DEFAULT_LIMIT} = pagination;
 const queryOptions = {new: true, runValidators: true};
 
 module.exports = {
-  getUserList: (page = DEFAULT_PAGE, limit = DEFAULT_LIMIT) => {
+  getUserByUsername: (username) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const data = await UserModel.find().skip(parseInt(page)).limit(parseInt(limit));
-
-        resolve(data);
+        resolve(await UserModel.findOne({username}));
       } catch (error) {
         reject(error);
       }
     });
   },
 
-  getUser: (id) => {
+  getUserByEmail: (email) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        resolve(await UserModel.findOne({email}));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+
+  getUserById: (id) => {
     return new Promise(async (resolve, reject) => {
       try {
         resolve(await UserModel.findById(id));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+
+  getUserList: (page = DEFAULT_PAGE, limit = DEFAULT_LIMIT) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const data = await UserModel.find().skip(parseInt(page)).limit(parseInt(limit));
+
+        resolve(data);
       } catch (error) {
         reject(error);
       }
