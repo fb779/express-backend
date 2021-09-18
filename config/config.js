@@ -17,4 +17,8 @@ module.exports = {
       },
     },
   },
+  pagination: {
+    DEFAULT_PAGE: 0,
+    DEFAULT_LIMIT: 10,
+  },
 };

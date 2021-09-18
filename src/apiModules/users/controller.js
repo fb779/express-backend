@@ -2,55 +2,75 @@ const {getUser, getUserList, createUser, updateUser, deleteUser} = require('./da
 
 module.exports = {
   getUser: async (req, res, next) => {
-    const {id = null} = req.params;
+    try {
+      const {id = null} = req.params;
 
-    const data = await getUser(id);
+      const data = await getUser(id);
 
-    res.json({data, message: 'users get'});
+      res.json({data});
+    } catch (error) {
+      next(error);
+    }
   },
 
   getUserList: async (req, res, next) => {
-    const {query = {}} = req;
-    console.log('algo apra saber si llegamos aqui carajo ', query);
-    const data = await getUserList(query);
+    try {
+      const {
+        query,
+        query: {page, limit},
+      } = req;
 
-    res.json({data, message: 'users get id'});
+      const data = await getUserList(page, limit);
+
+      res.json({data, query});
+    } catch (error) {
+      next(error);
+    }
   },
 
   createUser: async (req, res, next) => {
     try {
-      const {params, query, body} = req;
+      const {body} = req;
 
       const data = await createUser(body);
 
-      res.json({data, params, query, body});
+      res.json({data});
     } catch (error) {
-      console.log(error);
-      res.json({ok: false, error});
+      next(error);
     }
   },
 
   updateUser: async (req, res, next) => {
-    const {params, query, body} = req;
+    try {
+      const {
+        params: {id},
+        body,
+      } = req;
 
-    const user = await updateUser(body);
+      const data = await updateUser(id, body);
 
-    res.json({data: 'users put', params, query, body});
-  },
-
-  modifyUser: async (req, res, next) => {
-    const {params, query, body} = req;
-
-    const user = await updateUser(body);
-
-    res.json({data: 'users patch', params, query, body});
+      res.json({data});
+    } catch (error) {
+      next(error);
+    }
   },
 
   deleteUser: async (req, res, next) => {
-    const {params, query, body} = req;
+    try {
+      const {
+        params: {id},
+      } = req;
 
-    const user = await deleteUser(body);
+      const data = await deleteUser(id);
 
-    res.json({data: 'users delete', params, query, body});
+      if (!data) {
+        throw new Error(`Record ${id} is't found`);
+        // return res.status(400).json({ok: false, error: `Record ${id} is't found`});
+      }
+
+      res.json({data});
+    } catch (error) {
+      next(error);
+    }
   },
 };
