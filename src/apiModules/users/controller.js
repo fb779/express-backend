@@ -1,4 +1,5 @@
-const {getUser, getUserList, createUser, updateUser, deleteUser, getUserById} = require('./dao');
+const createError = require('http-errors');
+const {getUserById, getUserList, createUser, updateUser, deleteUser} = require('./dao');
 
 module.exports = {
   getUser: async (req, res, next) => {
@@ -6,6 +7,11 @@ module.exports = {
       const {id = null} = req.params;
 
       const data = await getUserById(id);
+
+      if (!data) {
+        throw createError(400);
+        // return next(createError(404));
+      }
 
       res.json({data});
     } catch (error) {
@@ -49,6 +55,10 @@ module.exports = {
 
       const data = await updateUser(id, body);
 
+      if (!data) {
+        throw createError(400);
+      }
+
       res.json({data});
     } catch (error) {
       next(error);
@@ -64,8 +74,7 @@ module.exports = {
       const data = await deleteUser(id);
 
       if (!data) {
-        throw new Error(`Record ${id} is't found`);
-        // return res.status(400).json({ok: false, error: `Record ${id} is't found`});
+        throw createError(400);
       }
 
       res.json({data});
