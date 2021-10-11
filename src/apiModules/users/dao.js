@@ -4,13 +4,12 @@ const {pagination} = require('../../../config/config');
 
 /** Definiciones */
 const {DEFAULT_PAGE, DEFAULT_LIMIT} = pagination;
-const queryOptions = {new: true, runValidators: true};
 
 module.exports = {
   getUserByUsername: (username) => {
     return new Promise(async (resolve, reject) => {
       try {
-        resolve(await UserModel.findOne({username}));
+        resolve(await UserModel.findByUsername(username));
       } catch (error) {
         reject(error);
       }
@@ -20,7 +19,7 @@ module.exports = {
   getUserByEmail: (email) => {
     return new Promise(async (resolve, reject) => {
       try {
-        resolve(await UserModel.findOne({email}));
+        resolve(await UserModel.findByEmail(email));
       } catch (error) {
         reject(error);
       }
@@ -64,9 +63,9 @@ module.exports = {
   updateUser: (id, userDto) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const query = {_id: id};
-
-        const user = await UserModel.findOneAndUpdate(query, userDto, queryOptions);
+        // const user = await UserModel.findByIdAndUpdate(id, userDto, {...queryOptions, context: 'query'});
+        const {password, ...editUserInfo} = userDto;
+        const user = await UserModel.findByIdAndUpdate(id, editUserInfo);
 
         resolve(user);
       } catch (error) {
