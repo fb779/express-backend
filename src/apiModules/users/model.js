@@ -20,6 +20,17 @@ const UserSchema = new Schema(
 UserSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
 
 /**
+ * static methods
+ */
+UserSchema.static('findByUsername', function (value) {
+  return this.findOne({username: value});
+});
+
+UserSchema.static('findByEmail', function (value) {
+  return this.findOne({email: value});
+});
+
+/**
  * method of remove password to response
  */
 UserSchema.methods.toJSON = function () {
