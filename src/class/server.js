@@ -112,6 +112,12 @@ class Server {
       res.locals.message = err.message;
       res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+      // response error API
+      if (req.originalUrl.includes('/api')) {
+        res.status(err.status || 500).json({ok: false, message: err.message});
+        return;
+      }
+
       // render the error page
       res.status(err.status || 500);
       res.render('error', {title: '404-Error'});
