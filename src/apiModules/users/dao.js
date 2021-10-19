@@ -65,7 +65,7 @@ module.exports = {
       try {
         // const user = await UserModel.findByIdAndUpdate(id, userDto, {...queryOptions, context: 'query'});
         const {password, ...editUserInfo} = userDto;
-        const user = await UserModel.findByIdAndUpdate(id, editUserInfo);
+        const user = await UserModel.findByIdAndUpdate(id, editUserInfo, {new: true});
 
         resolve(user);
       } catch (error) {

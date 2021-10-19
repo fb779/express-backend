@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const {getUserById, getUserList, createUser, updateUser, deleteUser} = require('./dao');
+const {UserDTO} = require('./dto');
 
 module.exports = {
   getUser: async (req, res, next) => {
@@ -36,9 +37,9 @@ module.exports = {
 
   createUser: async (req, res, next) => {
     try {
-      const {body} = req;
+      const userDto = UserDTO(req.body);
 
-      const data = await createUser(body);
+      const data = await createUser(userDto);
 
       res.json({data});
     } catch (error) {
@@ -50,10 +51,11 @@ module.exports = {
     try {
       const {
         params: {id},
-        body,
       } = req;
 
-      const data = await updateUser(id, body);
+      const userDto = UserDTO(req.body);
+
+      const data = await updateUser(id, userDto);
 
       if (!data) {
         throw createError(400);
