@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const {
-  server: {PORT},
+    server: {PORT, origin},
 } = require('../../config/config');
 
 const {normalizePort} = require('../helpers/normalizePort');
@@ -25,118 +25,118 @@ const indexRouter = require('../routes/index');
 const rootDirectory = path.join(__dirname, '..', '..');
 
 class Server {
-  constructor() {
-    this.app = express();
+    constructor() {
+        this.app = express();
 
-    this.server = createServer(this.app);
+        this.server = createServer(this.app);
 
-    this.io = io(this.server);
+        this.io = io(this.server);
 
-    // Set the port value
-    this.definePort();
+        // Set the port value
+        this.definePort();
 
-    // Middlewares
-    this.middlewares();
+        // Middlewares
+        this.middlewares();
 
-    // View engine
-    this.viewEngine();
+        // View engine
+        this.viewEngine();
 
-    // Routes
-    this.routes();
+        // Routes
+        this.routes();
 
-    // Error handler routes
-    this.routesHandleError();
+        // Error handler routes
+        this.routesHandleError();
 
-    // socket configurations
-    this.sockets();
-  }
-
-  /**
-   * Get port from environment and store in Express.
-   */
-  definePort() {
-    this.port = normalizePort(PORT);
-    if (!this.port) {
-      throw new Error(`Port is not define`);
+        // socket configurations
+        this.sockets();
     }
-    this.app.set('port', this.port);
-  }
 
-  viewEngine() {
-    const hbs = exphbs.create({
-      defaultLayout: 'main.hbs',
-      layoutsDir: path.join(rootDirectory, 'views', 'layouts'),
-      partialsDir: path.join(rootDirectory, 'views', 'partials'),
-      extname: 'hbs',
-    });
+    /**
+     * Get port from environment and store in Express.
+     */
+    definePort() {
+        this.port = normalizePort(PORT);
+        if (!this.port) {
+            throw new Error(`Port is not define`);
+        }
+        this.app.set('port', this.port);
+    }
 
-    // Define the name template engine
-    const hbsName = 'hbs';
+    viewEngine() {
+        const hbs = exphbs.create({
+            defaultLayout: 'main.hbs',
+            layoutsDir: path.join(rootDirectory, 'views', 'layouts'),
+            partialsDir: path.join(rootDirectory, 'views', 'partials'),
+            extname: 'hbs',
+        });
 
-    //Sets handlebars configurations (we will go through them later on)
-    this.app.engine(hbsName, hbs.engine);
+        // Define the name template engine
+        const hbsName = 'hbs';
 
-    //Sets our app to use the handlebars engine
-    this.app.set('view engine', hbsName);
-  }
+        //Sets handlebars configurations (we will go through them later on)
+        this.app.engine(hbsName, hbs.engine);
 
-  middlewares() {
-    this.app.use(logger('dev'));
+        //Sets our app to use the handlebars engine
+        this.app.set('view engine', hbsName);
+    }
 
-    this.app.use(cors());
+    middlewares() {
+        this.app.use(logger('dev'));
 
-    this.app.use(helmet());
+        this.app.use(cors({origin}));
 
-    this.app.use(express.json());
+        this.app.use(helmet());
 
-    this.app.use(express.urlencoded({extended: false}));
+        this.app.use(express.json());
 
-    this.app.use(cookieParser());
+        this.app.use(express.urlencoded({extended: false}));
 
-    this.app.use(express.static(path.join(rootDirectory, 'public')));
-  }
+        this.app.use(cookieParser());
 
-  routes() {
-    this.app.use('/', indexRouter);
-  }
+        this.app.use(express.static(path.join(rootDirectory, 'public')));
+    }
 
-  routesHandleError() {
-    // catch 404 and forward to error handler
-    this.app.use(function (req, res, next) {
-      next(createError(404));
-    });
+    routes() {
+        this.app.use('/', indexRouter);
+    }
 
-    // error handler
-    this.app.use(function (err, req, res, next) {
-      // set locals, only providing error in development
-      res.locals.message = err.message;
-      res.locals.error = req.app.get('env') === 'development' ? err : {};
+    routesHandleError() {
+        // catch 404 and forward to error handler
+        this.app.use(function (req, res, next) {
+            next(createError(404));
+        });
 
-      // response error API
-      if (req.originalUrl.includes('/api')) {
-        res.status(err.status || 500).json({ok: false, message: err.message});
-        return;
-      }
+        // error handler
+        this.app.use(function (err, req, res, next) {
+            // set locals, only providing error in development
+            res.locals.message = err.message;
+            res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-      // render the error page
-      res.status(err.status || 500);
-      res.render('error', {title: '404-Error'});
-    });
-  }
+            // response error API
+            if (req.originalUrl.includes('/api')) {
+                res.status(err.status || 500).json({ok: false, message: err.message});
+                return;
+            }
 
-  sockets() {
-    this.io.on('connection', (socket) => socketController(socket, this.io));
-  }
+            // render the error page
+            res.status(err.status || 500);
+            res.render('error', {title: '404-Error'});
+        });
+    }
 
-  async listen() {
-    /** Database conecction */
-    await dbConnection();
+    sockets() {
+        this.io.on('connection', (socket) => socketController(socket, this.io));
+    }
 
-    /** Start to listen server */
-    this.server.listen(this.port, () => {
-      console.log(`Server runnign on port: ${this.port}`);
-    });
-  }
+    async listen() {
+        /** Database conecction */
+        await dbConnection();
+
+        /** Start to listen server */
+        this.server.listen(this.port, () => {
+            console.log(`Server runnign on port: ${this.port}`);
+        });
+    }
 }
 
 module.exports = Server;
