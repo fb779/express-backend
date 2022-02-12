@@ -21,7 +21,7 @@ module.exports = {
         },
     },
     pagination: {
-        DEFAULT_PAGE: 0,
+        DEFAULT_PAGE: 1,
         DEFAULT_LIMIT: 10,
     },
 };
