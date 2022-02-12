@@ -1,16 +1,16 @@
 const createError = require('http-errors');
 
-const {validateObjectId} = require('../helpers/validate-mongoose-objectId');
+const {isValidObjectId} = require('../helpers/validators.helper');
 
 module.exports = {
-  mongooseValidateObjecID: (req, res, next) => {
-    const {id} = req.params;
+    mongooseValidateObjecID: (req, res, next) => {
+        const {id} = req.params;
 
-    if (!validateObjectId(id)) {
-      throw createError(400);
-      // return res.status(404).json({message: `El recurso no fue encontrado`});
-    }
+        if (!isValidObjectId(id)) {
+            throw createError(400, `The Id: ${id} is invalid`);
+            // return res.status(404).json({message: `El recurso no fue encontrado`});
+        }
 
-    next();
-  },
+        next();
+    },
 };
