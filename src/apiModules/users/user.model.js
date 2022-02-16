@@ -50,6 +50,13 @@ UserSchema.pre('findOneAndUpdate', function (next) {
 });
 
 /**
+ * virtual fields
+ */
+UserSchema.virtual('uid').get(function () {
+    return this.id;
+});
+
+/**
  * static methods
  */
 UserSchema.static('findByUsername', function (value) {
@@ -64,7 +71,7 @@ UserSchema.static('findByEmail', function (value) {
  * method of remove password to response
  */
 UserSchema.methods.toJSON = function () {
-    const {password, _id, __v, ...user} = this.toObject();
+    const {password, _id, id, __v, ...user} = this.toObject();
 
     return user;
 };
