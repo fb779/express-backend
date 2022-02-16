@@ -8,7 +8,7 @@ module.exports = {
 
             const data = await loginEmailPassword(email, password);
 
-            res.json({msg: `Respuesta del login`, email, password, data});
+            res.json(data);
         } catch (error) {
             next(error);
         }

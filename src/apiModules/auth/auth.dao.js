@@ -29,7 +29,7 @@ module.exports = {
                 // TODO: generate jwt
                 const token = await generateJWT({uid: user.uid});
 
-                return resolve({user, token});
+                return resolve({token});
             } catch (error) {
                 return reject(error);
             }
