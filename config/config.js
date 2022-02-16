@@ -20,6 +20,11 @@ module.exports = {
             },
         },
     },
+    secret: {
+        jwtKey: process.env.SECRET_PRIVATE_KEY,
+        expireTime: process.env.EXPIRE_TOKEN,
+    },
+
     pagination: {
         DEFAULT_PAGE: 1,
         DEFAULT_LIMIT: 10,
