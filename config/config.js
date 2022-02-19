@@ -23,6 +23,7 @@ module.exports = {
     secret: {
         jwtKey: process.env.SECRET_PRIVATE_KEY,
         expireTime: process.env.EXPIRE_TOKEN,
+        headerToken: process.env.HEADER_TOKEN,
     },
 
     pagination: {
