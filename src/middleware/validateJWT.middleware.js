@@ -5,7 +5,7 @@ const {
     secret: {headerToken},
 } = require('../../config/config');
 
-const {checkJWT} = require('../helpers/jwt.helper');
+const {checkJWT} = require('../helpers');
 
 const {getUserById} = require('../apiModules/users/user.dao');
 

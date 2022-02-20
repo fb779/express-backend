@@ -1,5 +1,6 @@
 const {Router} = require('express');
-const {validateJWT} = require('../../middleware/validateJWT.middleware');
+
+const {validateJWT} = require('../../middleware');
 
 const router = Router();
 

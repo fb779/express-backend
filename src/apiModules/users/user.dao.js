@@ -39,7 +39,7 @@ module.exports = {
     getUserById: (id) => {
         return new Promise(async (resolve, reject) => {
             try {
-                resolve(await UserModel.findById(id));
+                resolve(await UserModel.findById(id).populate([{path: 'role', select: 'name'}]));
             } catch (error) {
                 reject(error);
             }

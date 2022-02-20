@@ -4,7 +4,7 @@ const {Schema, model} = mongoose;
 const RoleModel = require('./../roles/role.model');
 
 const mongooseUniqueValidator = require('mongoose-unique-validator');
-const {encryptPassword} = require('../../helpers/password.helper');
+const {encryptPassword} = require('../../helpers');
 
 const UserSchema = new Schema(
     {
@@ -55,6 +55,12 @@ UserSchema.pre('findOneAndUpdate', function (next) {
 UserSchema.virtual('uid').get(function () {
     return this.id;
 });
+
+// UserSchema.virtual('role_name').get(async function () {
+//     const role = await RoleModel.findById(this.role);
+//     console.log(this.role);
+//     return role.name;
+// });
 
 /**
  * static methods

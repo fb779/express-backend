@@ -1,6 +1,7 @@
 const {check} = require('express-validator');
 
-const {validateResult} = require('../../../middleware/validateResult');
+const {validateResult} = require('../../../middleware');
+
 const {getRoleByName} = require('../role.dao');
 
 const roleValidateCreate = [

@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 
-const {isValidObjectId} = require('../helpers/validators.helper');
+const {isValidObjectId} = require('../helpers');
 
 module.exports = {
     mongooseValidateObjecID: (req, res, next) => {

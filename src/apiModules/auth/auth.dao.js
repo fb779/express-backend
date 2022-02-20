@@ -1,9 +1,8 @@
 const createError = require('http-errors');
 
-const {getUserByEmail} = require('../users/user.dao');
+const {isPasswordRigth, generateJWT} = require('../../helpers');
 
-const {isPasswordRigth} = require('../../helpers/password.helper');
-const {generateJWT} = require('../../helpers/jwt.helper');
+const {getUserByEmail} = require('../users/user.dao');
 
 module.exports = {
     loginEmailPassword: async (email, password) => {

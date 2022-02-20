@@ -6,6 +6,15 @@ const {pagination} = require('../../../config/config');
 const {DEFAULT_PAGE, DEFAULT_LIMIT} = pagination;
 
 module.exports = {
+    getMultipleRoleByName: (names) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                resolve(await RoleModel.findMultiplyByName(names));
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
     getRoleByName: (name) => {
         return new Promise(async (resolve, reject) => {
             try {

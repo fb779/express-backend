@@ -1,6 +1,6 @@
 const {Router} = require('express');
 
-const {mongooseValidateObjecID} = require('../../middleware/mongoose-validators.middleware');
+const {mongooseValidateObjecID} = require('../../middleware');
 
 const {roleValidateCreate, roleValidateUpdate} = require('./validators/role.validator');
 

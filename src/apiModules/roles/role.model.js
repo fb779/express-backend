@@ -20,6 +20,10 @@ RoleSchema.static('findByName', function (value) {
     return this.findOne({name: value});
 });
 
+RoleSchema.static('findMultiplyByName', function (value) {
+    return this.find({name: {$in: value}});
+});
+
 /**
  * method of remove password to response
  */

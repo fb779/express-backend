@@ -14,7 +14,7 @@ const {
     server: {PORT, origin},
 } = require('../../config/config');
 
-const {normalizePort} = require('../helpers/normalizePort');
+const {normalizePort} = require('../helpers');
 
 const {dbConnection} = require('../database/mongoose-config.db');
 
