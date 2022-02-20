@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
-const {Schema, model} = mongoose;
+const mongooseUniqueValidator = require('mongoose-unique-validator');
 
 const RoleModel = require('./../roles/role.model');
 
-const mongooseUniqueValidator = require('mongoose-unique-validator');
-const {encryptPassword} = require('../../helpers');
+const {encryptPassword} = require('./../../helpers');
+
+const {Schema, model} = mongoose;
 
 const UserSchema = new Schema(
     {
         first_name: {type: String, required: true},
         last_name: {type: String, required: true},
         email: {type: String, required: true, unique: true},
-        password: {type: String, require: true},
+        password: {type: String, required: true},
         image: {type: String, default: null},
         role: {type: Schema.Types.ObjectId, ref: 'Role', required: false},
         status: {type: Boolean, default: true},

@@ -1,10 +1,11 @@
 const {check} = require('express-validator');
 
-const {isRoleValid, emailExist, userExist} = require('../../../helpers');
+const {validateResult} = require('./../../../middleware');
 
-const {validateResult} = require('../../../middleware');
+const {getUserById, getUserByEmail} = require('./../user.dao');
+const {emailExist, userExist} = require('./../helpers/user.helper');
 
-const {getUserById, getUserByEmail} = require('../user.dao');
+const {isRoleValid} = require('./../../roles/helpers/role.helper');
 
 const userValidateCreate = [
     check('first_name').exists().not().isEmpty().isString().bail(),

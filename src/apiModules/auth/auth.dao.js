@@ -1,8 +1,9 @@
 const createError = require('http-errors');
 
-const {isPasswordRigth, generateJWT} = require('../../helpers');
+const {isPasswordRigth, generateJWT, googleVerify} = require('./../../helpers');
+const {create} = require('./../roles/role.model');
 
-const {getUserByEmail} = require('../users/user.dao');
+const {getUserByEmail, createUser} = require('./../users/user.dao');
 
 module.exports = {
     loginEmailPassword: async (email, password) => {
@@ -31,6 +32,33 @@ module.exports = {
                 return resolve({token});
             } catch (error) {
                 return reject(error);
+            }
+        });
+    },
+
+    signInGoolgeAccount: (id_token) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const userDto = await googleVerify(id_token);
+
+                let user = await getUserByEmail(userDto.email);
+
+                // // TODO: check user exist
+                if (!user) {
+                    user = await createUser(userDto);
+                }
+
+                // // TODO: check user status trues
+                if (!user.status) {
+                    return reject(createError(401, {message: `User disabled, contact the admin`}));
+                }
+
+                // TODO: generate jwt
+                const token = await generateJWT({uid: user.uid});
+
+                resolve(token);
+            } catch (error) {
+                reject(error);
             }
         });
     },

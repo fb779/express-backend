@@ -1,7 +1,7 @@
-module.exports = {
+const self = (module.exports = {
+    ...require('./google-verify'),
     ...require('./jwt.helper'),
-    ...require('./normalizePort'),
+    ...require('./normalize-port.helper'),
     ...require('./password.helper'),
-    ...require('./validate-mongoose-objectId'),
     ...require('./validators.helper'),
-};
+});
