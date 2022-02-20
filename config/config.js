@@ -25,9 +25,12 @@ module.exports = {
         expireTime: process.env.EXPIRE_TOKEN,
         headerToken: process.env.HEADER_TOKEN,
     },
-
     pagination: {
         DEFAULT_PAGE: 1,
         DEFAULT_LIMIT: 10,
+    },
+    google: {
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
     },
 };
