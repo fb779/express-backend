@@ -8,6 +8,9 @@ const LoginValidate = [
     validateResult,
 ];
 
+const GoogleLoginValidate = [check('id_token').exists().not().isEmpty().trim(), validateResult];
+
 module.exports = {
     LoginValidate,
+    GoogleLoginValidate,
 };

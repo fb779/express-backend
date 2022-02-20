@@ -14,6 +14,18 @@ module.exports = {
         }
     },
 
+    googleSignIn: async (req, res, next) => {
+        try {
+            const {id_token} = req.body;
+
+            res.json({
+                id_token,
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+
     siging: async (req, res, next) => {},
 
     logout: async (req, res, next) => {},
