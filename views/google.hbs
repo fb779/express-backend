@@ -1,0 +1,66 @@
+{{> header }}
+
+{{> navbar }}
+
+<!-- Content -->
+<!--
+    Note: To show a background image, set the "data-bg" attribute below
+    to the full filename of your image. This is used in each section to set
+    the background image.
+-->
+<section id='post' class='wrapper bg-img' data-bg='banner2.jpg' style="height: 100vh;">
+  <div class='inner'>
+    <article class='box'>
+      <header>
+        <h2>{{title}}</h2>
+      </header>
+      <div class='content'>
+            <div
+                id="g_id_onload"
+                data-client_id="{{client_id}}"
+                data-auto_prompt="false"
+                data-callback="handleCredentialResponse">
+            </div>
+            <div
+                class="g_id_signin"
+                data-type="standard"
+                data-size="large"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-shape="rectangular"
+                data-logo_alignment="left">
+            </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script src="http://accounts.google.com/gsi/client" async defer></script>
+<script>
+    function handleCredentialResponse(response) {
+        // decodeJwtResponse() is a custom function defined by you
+        // to decode the credential response.
+
+        const id_token = response.credential;
+
+        fetch('http://localhost:3001/api/auth/google', {
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({id_token}),
+        })
+        .then( (resp) => resp.json())
+        .then((resp)=>{
+            console.log('llegada de la respuesta',resp)
+        })
+
+        //const responsePayload = decodeJwtResponse(response.credential);
+        // console.log("ID: " + responsePayload.sub);
+        // console.log('Full Name: ' + responsePayload.name);
+        // console.log('Given Name: ' + responsePayload.given_name);
+        // console.log('Family Name: ' + responsePayload.family_name);
+        // console.log("Image URL: " + responsePayload.picture);
+        // console.log("Email: " + responsePayload.email);
+  }
+</script>
