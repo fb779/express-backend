@@ -30,6 +30,10 @@
                 data-shape="rectangular"
                 data-logo_alignment="left">
             </div>
+
+            <div>
+                <button id="google_sign_out">Sign-Out</button>
+            </div>
       </div>
     </article>
   </div>
@@ -37,6 +41,7 @@
 
 <script src="http://accounts.google.com/gsi/client" async defer></script>
 <script>
+
     function handleCredentialResponse(response) {
         // decodeJwtResponse() is a custom function defined by you
         // to decode the credential response.
@@ -53,14 +58,28 @@
         .then( (resp) => resp.json())
         .then((resp)=>{
             console.log('llegada de la respuesta',resp)
+            const { user, token } = resp;
+            localStorage.setItem('email', user.email);
+            localStorage.setItem('token', token);
+        }).catch((error)=>{
+            console.log(error);
         })
+    }
 
-        //const responsePayload = decodeJwtResponse(response.credential);
-        // console.log("ID: " + responsePayload.sub);
-        // console.log('Full Name: ' + responsePayload.name);
-        // console.log('Given Name: ' + responsePayload.given_name);
-        // console.log('Family Name: ' + responsePayload.family_name);
-        // console.log("Image URL: " + responsePayload.picture);
-        // console.log("Email: " + responsePayload.email);
-  }
+    const signout = document.getElementById('google_sign_out');
+
+    signout.addEventListener('click', ()=>{
+        console.log('google account: ', google)
+
+        google.accounts.id.disableAutoSelect();
+
+        google.accounts.id.revoke( localStorage.getItem('email'), done => {
+            localStorage.clear();
+            location.reload();
+            alert('the current session was closed');
+        });
+    });
+
+
+
 </script>
