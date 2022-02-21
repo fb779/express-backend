@@ -29,7 +29,7 @@ module.exports = {
                 // TODO: generate jwt
                 const token = await generateJWT({uid: user.uid});
 
-                return resolve({token});
+                return resolve({token, user});
             } catch (error) {
                 return reject(error);
             }
@@ -43,20 +43,25 @@ module.exports = {
 
                 let user = await getUserByEmail(userDto.email);
 
-                // // TODO: check user exist
+                // TODO: check user exist
                 if (!user) {
                     user = await createUser(userDto);
                 }
 
-                // // TODO: check user status trues
+                // TODO: check user status trues
                 if (!user.status) {
                     return reject(createError(401, {message: `User disabled, contact the admin`}));
                 }
 
+                // TODO: check user status true
+                // if (!user.google) {
+                //     return reject(createError(401, {message: `User disabled, contact the admin`}));
+                // }
+
                 // TODO: generate jwt
                 const token = await generateJWT({uid: user.uid});
 
-                resolve(token);
+                resolve({token, user});
             } catch (error) {
                 reject(error);
             }

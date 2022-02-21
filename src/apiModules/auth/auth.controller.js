@@ -18,11 +18,9 @@ module.exports = {
         try {
             const {id_token} = req.body;
 
-            const token = await signInGoolgeAccount(id_token);
+            const data = await signInGoolgeAccount(id_token);
 
-            res.json({
-                token,
-            });
+            res.json(data);
         } catch (error) {
             next(error);
         }
