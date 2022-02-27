@@ -14,7 +14,7 @@ module.exports = {
                 // return next(createError(404));
             }
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -41,7 +41,7 @@ module.exports = {
 
             const data = await createRole(userDto);
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -57,11 +57,11 @@ module.exports = {
 
             const data = await updateRole(id, userDto);
 
-            if (!data) {
-                throw createError(400);
-            }
+            // if (!data) {
+            //     throw createError(400);
+            // }
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -75,11 +75,11 @@ module.exports = {
 
             const data = await deleteRole(id);
 
-            if (!data) {
-                throw createError(400);
-            }
+            // if (!data) {
+            //     throw createError(400);
+            // }
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }

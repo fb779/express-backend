@@ -1,21 +1,21 @@
 const {Router} = require('express');
 
-const {mongooseValidateObjecID} = require('./../../middleware');
+const {validRole, checkPagination} = require('./../../middleware');
 
-const {roleValidateCreate, roleValidateUpdate} = require('./validators/role.validator');
-
+const {roleValidateCreate, roleValidateUpdate, roleValidateId} = require('./validators/role.validator');
+const {checkQueryFilters} = require('./middleware/filters.middleware');
 const {getUser, getUserList, createUser, updateUser, deleteUser} = require('./role.controller');
 
 const router = Router();
 
-router.get('/', getUserList);
+router.get('/', [checkPagination, checkQueryFilters], getUserList);
 
-router.get('/:id', [mongooseValidateObjecID], getUser);
+router.get('/:id', [roleValidateId], getUser);
 
-router.post('/', roleValidateCreate, createUser);
+router.post('/', [validRole('ADMIN'), roleValidateCreate], createUser);
 
-router.put('/:id', [mongooseValidateObjecID, roleValidateUpdate], updateUser);
+router.put('/:id', [validRole('ADMIN'), roleValidateUpdate], updateUser);
 
-router.delete('/:id', [mongooseValidateObjecID], deleteUser);
+router.delete('/:id', [validRole('ADMIN'), roleValidateId], deleteUser);
 
 module.exports = router;
