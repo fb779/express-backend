@@ -11,8 +11,6 @@ module.exports = {
                     user: {role: user_role = null},
                 } = req;
 
-                console.log(`validando el role ${roles}, user info: ${user.role.name}`);
-
                 if (!user) {
                     throw createError(500, {message: 'Error, Valid user with out valid token'});
                 }
