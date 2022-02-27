@@ -16,16 +16,6 @@ module.exports = {
         });
     },
 
-    getUserByUsername: (username) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                resolve(await UserModel.findByUsername(username));
-            } catch (error) {
-                reject(error);
-            }
-        });
-    },
-
     getUserByEmail: (email) => {
         return new Promise(async (resolve, reject) => {
             try {

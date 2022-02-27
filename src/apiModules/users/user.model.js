@@ -18,7 +18,7 @@ const UserSchema = new Schema(
         status: {type: Boolean, default: true},
         google: {type: Boolean, default: false},
     },
-    {collection: 'users', timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}}
+    {collection: 'users', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
 
 UserSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
@@ -54,7 +54,8 @@ UserSchema.pre('findOneAndUpdate', function (next) {
  * virtual fields
  */
 UserSchema.virtual('uid').get(function () {
-    return this.id;
+    return this._id.toString();
+    // return this.id;
 });
 
 // UserSchema.virtual('role_name').get(async function () {
@@ -66,10 +67,6 @@ UserSchema.virtual('uid').get(function () {
 /**
  * static methods
  */
-UserSchema.static('findByUsername', function (value) {
-    return this.findOne({username: value});
-});
-
 UserSchema.static('findByEmail', function (value) {
     return this.findOne({email: value});
 });
@@ -78,9 +75,9 @@ UserSchema.static('findByEmail', function (value) {
  * method of remove password to response
  */
 UserSchema.methods.toJSON = function () {
-    const {password, _id, id, __v, ...user} = this.toObject();
+    const {password, _id, id, status, __v, ...data} = this.toObject();
 
-    return user;
+    return data;
 };
 
 module.exports = model('User', UserSchema);

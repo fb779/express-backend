@@ -14,7 +14,7 @@ module.exports = {
                 // return next(createError(404));
             }
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -23,8 +23,6 @@ module.exports = {
     getUserList: async (req, res, next) => {
         try {
             const {filters, pagination} = req;
-
-            // const data = await getUserList(filters, pagination);
 
             const [total, data] = await Promise.all([getCount(filters), getUserList(filters, pagination)]);
 
@@ -40,7 +38,7 @@ module.exports = {
 
             const data = await createUser(userDto);
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -61,7 +59,7 @@ module.exports = {
                 throw createError(400, {message: `Can not update the information`});
             }
 
-            res.json({data});
+            res.json(data);
         } catch (error) {
             next(error);
         }
@@ -75,9 +73,9 @@ module.exports = {
 
             const data = await deleteUser(id);
 
-            if (!data) {
-                throw createError(400, {message: 'Invalid information'});
-            }
+            // if (!data) {
+            //     throw createError(400, {message: 'Invalid information'});
+            // }
 
             res.json(data);
         } catch (error) {
