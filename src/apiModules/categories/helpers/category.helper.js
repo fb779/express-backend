@@ -8,6 +8,14 @@ module.exports = {
         }
     },
 
+    categoryListExist: async (list) => {
+        const category = await Promise.all(list.map((id) => getCategoryById(id)));
+
+        if (category.some((item) => !item)) {
+            return Promise.reject(`Invalid Category, one or more categories doesn't exist`);
+        }
+    },
+
     categoryNameExist: async (name) => {
         const category = await getCategoryByName(name);
         if (category) {
