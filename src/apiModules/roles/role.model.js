@@ -8,10 +8,17 @@ const RoleSchema = new Schema(
         name: {type: String, required: true, unique: true},
         status: {type: Boolean, default: false},
     },
-    {collection: 'role', timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}}
+    {collection: 'role', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
 
 RoleSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
+
+/**
+ * virtual fields
+ */
+RoleSchema.virtual('uid').get(function () {
+    return this._id.toString();
+});
 
 /**
  * static methods
@@ -30,9 +37,9 @@ RoleSchema.static('findMultiplyByName', function (value) {
 RoleSchema.methods.toJSON = function () {
     const roleObject = this.toObject();
 
-    const {_id, __v, ...role} = roleObject;
+    const {_id, __v, ...data} = roleObject;
 
-    return role;
+    return data;
 };
 
 module.exports = model('Role', RoleSchema);

@@ -12,7 +12,7 @@ const CategorySchema = new Schema(
         status: {type: Boolean, default: false, required: true},
         user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     },
-    {collection: 'categories', timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}}
+    {collection: 'categories', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
 
 CategorySchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
@@ -39,7 +39,7 @@ CategorySchema.path('user').validate(async function (value) {
  * virtual fields
  */
 CategorySchema.virtual('uid').get(function () {
-    return this.id;
+    return this._id.toString();
 });
 
 CategorySchema.virtual('slug').get(function () {
@@ -63,9 +63,9 @@ CategorySchema.static('findByName', function (value) {
  * method of remove password to response
  */
 CategorySchema.methods.toJSON = function () {
-    const {_id, id, __v, ...rest_data} = this.toObject();
+    const {_id, id, __v, ...data} = this.toObject();
 
-    return rest_data;
+    return data;
 };
 
 module.exports = model('Category', CategorySchema);
