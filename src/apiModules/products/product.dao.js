@@ -46,13 +46,7 @@ module.exports = {
                     .limit(limit)
                     .populate([
                         {path: 'category', select: 'name uid slug'},
-                        {
-                            path: 'user',
-                            select: {
-                                uid: 1,
-                                email: 1,
-                            },
-                        },
+                        {path: 'user', select: {uid: 1, email: 1}},
                     ]);
 
                 resolve(data);
@@ -65,9 +59,9 @@ module.exports = {
     createProduct: (categoryDto) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await ProductModel.create(categoryDto);
+                const data = await ProductModel.create(categoryDto);
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -78,9 +72,9 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const {...editCategoryInfo} = categoryDto;
-                const user = await ProductModel.findByIdAndUpdate(id, editCategoryInfo, {new: true});
+                const data = await ProductModel.findByIdAndUpdate(id, editCategoryInfo, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -90,9 +84,10 @@ module.exports = {
     deleteProduct: (id) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await ProductModel.findByIdAndRemove(id);
+                // const data = await ProductModel.findByIdAndRemove(id);
+                const data = await ProductModel.findByIdAndUpdate(id, {status: false}, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }

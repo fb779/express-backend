@@ -50,9 +50,9 @@ module.exports = {
     createRole: (roleDto) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await RoleModel.create(roleDto);
+                const data = await RoleModel.create(roleDto);
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -62,10 +62,10 @@ module.exports = {
     updateRole: (id, roleDto) => {
         return new Promise(async (resolve, reject) => {
             try {
-                // const user = await RoleModel.findByIdAndUpdate(id, roleDto, {...queryOptions, context: 'query'});
-                const user = await RoleModel.findByIdAndUpdate(id, roleDto, {new: true});
+                // const data = await RoleModel.findByIdAndUpdate(id, roleDto, {...queryOptions, context: 'query'});
+                const data = await RoleModel.findByIdAndUpdate(id, roleDto, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -75,9 +75,10 @@ module.exports = {
     deleteRole: (id) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await RoleModel.findByIdAndRemove(id);
+                // const user = await RoleModel.findByIdAndRemove(id);
+                const data = await RoleModel.findByIdAndUpdate(id, {status: false}, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }

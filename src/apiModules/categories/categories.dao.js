@@ -59,9 +59,9 @@ module.exports = {
     createCategory: (categoryDto) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await CategoryModel.create(categoryDto);
+                const data = await CategoryModel.create(categoryDto);
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -72,9 +72,9 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const {...editCategoryInfo} = categoryDto;
-                const user = await CategoryModel.findByIdAndUpdate(id, editCategoryInfo, {new: true});
+                const data = await CategoryModel.findByIdAndUpdate(id, editCategoryInfo, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -84,9 +84,10 @@ module.exports = {
     deleteCategory: (id) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await CategoryModel.findByIdAndRemove(id);
+                // const data = await CategoryModel.findByIdAndRemove(id);
+                const data = await CategoryModel.findByIdAndUpdate(id, {status: false}, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }

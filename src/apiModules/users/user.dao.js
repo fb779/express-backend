@@ -53,9 +53,9 @@ module.exports = {
     createUser: (userDto) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await UserModel.create(userDto);
+                const data = await UserModel.create(userDto);
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -68,9 +68,9 @@ module.exports = {
                 // const user = await UserModel.findByIdAndUpdate(id, userDto, {...queryOptions, context: 'query'});
                 // const {password, ...editUserInfo} = userDto;
                 const {...editUserInfo} = userDto;
-                const user = await UserModel.findByIdAndUpdate(id, editUserInfo, {new: true});
+                const data = await UserModel.findByIdAndUpdate(id, editUserInfo, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
@@ -80,11 +80,10 @@ module.exports = {
     deleteUser: (id) => {
         return new Promise(async (resolve, reject) => {
             try {
-                // const query = {_id: id};
-                // const user = await UserModel.findOneAndRemove(query);
-                const user = await UserModel.findByIdAndRemove(id);
+                // const user = await UserModel.findByIdAndRemove(id);
+                const data = await UserModel.findByIdAndUpdate(id, {status: false}, {new: true});
 
-                resolve(user);
+                resolve(data);
             } catch (error) {
                 reject(error);
             }
