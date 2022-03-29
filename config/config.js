@@ -1,3 +1,5 @@
+const path = require('path');
+
 const booleanNormalize = (value) => {
     return value === 'true';
 };
@@ -32,5 +34,21 @@ module.exports = {
     google: {
         client_id: process.env.CLIENT_ID,
         client_secret: process.env.CLIENT_SECRET,
+    },
+    upload: {
+        pathTemp: false,
+        uploadTmpPath: path.join(__dirname, '../tmp/'),
+        uploadPath: path.join(__dirname, '../uploads/'),
+        fileSize: 6 * 1024 * 1024,
+        directories: {
+            documents: 'documents',
+            avatars: 'avatars',
+        },
+        image_default: path.join(__dirname, '..', 'assets', 'images', 'image-default.png'),
+        collections: {
+            products: 'products',
+            users: 'users',
+            category: 'category',
+        },
     },
 };
