@@ -181,3 +181,7 @@ dist
 # Package-lock.json
 
 package-lock.json
+
+# Ignore all files and directories inside the uploads folder, exept .gitkeep
+uploads/**/**.*
+!uploads/.gitkeep
