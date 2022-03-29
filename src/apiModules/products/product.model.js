@@ -16,10 +16,10 @@ const ProductSchema = new Schema(
         user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
         status: {type: Boolean, default: false, required: true},
     },
-    {collection: 'products', timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}}
+    {collection: 'products', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
 
-ProductSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
+// ProductSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
 
 ProductSchema.path('user').validate(async function (value) {
     const val = await UserModel.findById(value);
@@ -35,13 +35,13 @@ ProductSchema.path('category').validate(async function (value) {
 /**
  * Hook to before to save user to encrypt password
  */
-// CategorySchema.pre('save', function (next) {
-//     const user = this;
+// ProductSchema.pre('save', function (next) {
+//     const obj = this;
 //     return next();
 // });
 
-// CategorySchema.pre('findOneAndUpdate', function (next) {
-//     const user = this.getUpdate();
+// ProductSchema.pre('findOneAndUpdate', function (next) {
+//     const obj = this.getUpdate();
 //     return next();
 // });
 

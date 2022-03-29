@@ -11,7 +11,7 @@ const RoleSchema = new Schema(
     {collection: 'role', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
 
-RoleSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
+// RoleSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
 
 /**
  * virtual fields
