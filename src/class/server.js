@@ -85,7 +85,21 @@ class Server {
 
         this.app.use(cors({origin}));
 
+        /**
+            BUG: login session with google has problems with helmet.
+            the google script to make a login need to be
+            helmet contentSecurityPolicy => no funciona la carga del script para el boton de google-sign-in
+        */
+
         this.app.use(helmet());
+        // this.app.use(
+        //     helmet.contentSecurityPolicy({
+        //         directives: {
+        //             'script-src': ["'self'", "'unsafe-inline'", 'https://accounts.google.com'],
+        //             'frame-src': ["'self'", 'https://accounts.google.com'],
+        //         },
+        //     })
+        // );
 
         this.app.use(express.json());
 
@@ -103,7 +117,7 @@ class Server {
     routesHandleError() {
         // catch 404 and forward to error handler
         this.app.use(function (req, res, next) {
-            next(createError(404));
+            req.originalUrl.includes('/api') ? next(createError(404, {message: `Invalid endpoint`})) : next(createError(404));
         });
 
         // error handler
@@ -119,8 +133,7 @@ class Server {
             }
 
             // render the error page
-            res.status(err.status || 500);
-            res.render('error', {title: '404-Error'});
+            res.status(err.status || 500).render('error', {title: 'Page not Found'});
         });
     }
 
