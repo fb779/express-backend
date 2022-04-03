@@ -1,7 +1,6 @@
 const createError = require('http-errors');
 
 const {isPasswordRigth, generateJWT, googleVerify} = require('./../../helpers');
-const {create} = require('./../roles/role.model');
 
 const {getUserByEmail, createUser} = require('./../users/user.dao');
 

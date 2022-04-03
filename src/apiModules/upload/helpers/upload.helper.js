@@ -1,8 +1,6 @@
 const fs = require('fs');
 const util = require('util');
 const path = require('path');
-const createError = require('http-errors');
-
 const {v4: uuid} = require('uuid');
 
 const {
