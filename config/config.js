@@ -36,7 +36,9 @@ module.exports = {
         client_secret: process.env.CLIENT_SECRET,
     },
     upload: {
-        pathTemp: false,
+        cloudinary_url: process.env.CLOUDINARY_URL,
+        cloudinary_folder: process.env.CLOUDINARY_FOLDER,
+        pathTemp: true,
         uploadTmpPath: path.join(__dirname, '../tmp/'),
         uploadPath: path.join(__dirname, '../uploads/'),
         fileSize: 6 * 1024 * 1024,
