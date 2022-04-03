@@ -10,7 +10,7 @@ const productValidateCreate = [
     check('image', `Invalid Field`).not().exists().bail(),
     check('price').optional().isNumeric().bail(),
     check('description').optional().not().isEmpty().isString().bail(),
-    check('category').custom(categoryListExist),
+    check('category').isArray().withMessage(`Invalid Category, it must be a list of categories`).bail().custom(categoryListExist),
     validateResult,
 ];
 
