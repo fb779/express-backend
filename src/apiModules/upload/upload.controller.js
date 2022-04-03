@@ -1,4 +1,4 @@
-const {uploadFileServer, getImageById} = require('./upload.dao');
+const {uploadFileServer, getImageById, uploadFileCloudinary} = require('./upload.dao');
 
 module.exports = {
     uploadServer: async (req, res, next) => {
@@ -9,7 +9,8 @@ module.exports = {
                 query: {collection, id},
             } = req;
 
-            const data = await uploadFileServer({id, collection, file: files[fieldName]});
+            // const data = await uploadFileServer({id, collection, file: files[fieldName]});
+            const data = await uploadFileCloudinary({id, collection, file: files[fieldName]});
 
             res.json({data});
         } catch (error) {
