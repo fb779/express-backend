@@ -1,0 +1,38 @@
+{{> header }}
+
+{{> navbar }}
+
+<!-- Content -->
+<!--
+			Note: To show a background image, set the "data-bg" attribute below
+			to the full filename of your image. This is used in each section to set
+			the background image.
+		-->
+{{!-- <section id='post' class='wrapper bg-img' data-bg='banner2.jpg'> --}}
+<section id='post' class='wrapper'>
+  <div class='inner'>
+    <article class='box'>
+      <header>
+        <h2>Chat</h2>
+        {{!-- <p>01.01.2017</p> --}}
+      </header>
+      <div class='content'>
+        <p style="width: 100%;">
+          <a id="led" href='#' class='icon fa-dribbble' style="font-size: 2rem;"><span class='label'>Dribbble</span></a>
+        </p>
+        <form action="">
+            <div class='row uniform'>
+                <div class='12u$'>
+                    <textarea name='message' id='message' placeholder='Enter your message' rows='6' disabled></textarea>
+                </div>
+
+                <!-- Break -->
+                <div class='12u$'>
+                    <input id="send" type='button' value='Send Message' disabled/>
+                </div>
+          </div>
+        </form>
+      </div>
+    </article>
+  </div>
+</section>
