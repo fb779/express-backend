@@ -1,10 +1,17 @@
-const {Socket} = require('socket.io');
-
 module.exports = {
-  socketController: (socket, io) => {
-    socket.on('disconnect', () => {
-      console.log('desconectado del socket: ', socket.id);
-    });
-    console.log('conectado al socket: ', socket.id);
-  },
+    socketController: (client, io) => {
+        console.log('conectado al socket: ', client.id);
+
+        client.on('disconnect', () => {
+            console.log('desconectado del socket: ', client.id);
+        });
+
+        client.on('send-message', (payload, cb) => {
+            payload = Object.assign(payload, {user_id: client.id});
+
+            cb && cb(payload);
+
+            client.broadcast.emit('send-message', payload);
+        });
+    },
 };
