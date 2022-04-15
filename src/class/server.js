@@ -18,7 +18,7 @@ const {normalizePort} = require('../helpers');
 
 const {dbConnection} = require('../database/mongoose-config.db');
 
-const {socketController} = require('../sockets/controller.socket');
+const {GenericControllerSk, TicketControllerSk} = require('../sockets/controller.socket');
 
 const indexRouter = require('../routes/index');
 
@@ -89,6 +89,7 @@ class Server {
             BUG: login session with google has problems with helmet.
             the google script to make a login need to be
             helmet contentSecurityPolicy => no funciona la carga del script para el boton de google-sign-in
+            BUG: helmet not allow load bootstrat files throwgh CDN
         */
 
         this.app.use(helmet());
@@ -138,7 +139,9 @@ class Server {
     }
 
     sockets() {
-        this.io.on('connection', (socket) => socketController(socket, this.io));
+        // this.io.on('connection', (socket) => socketController(socket, this.io));
+        GenericControllerSk(this.io);
+        TicketControllerSk(this.io);
     }
 
     async listen() {
