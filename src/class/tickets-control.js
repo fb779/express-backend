@@ -1,8 +1,10 @@
 const path = require('path');
 const fs = require('fs');
+const {v4: uuid} = require('uuid');
 
 class Ticket {
     constructor(number, desktop) {
+        this.uid = uuid();
         this.number = number;
         this.desktop = desktop;
         this.creted = new Date().getTime();
@@ -44,7 +46,7 @@ class TicketControl {
     saveDb() {
         const pathDb = path.join(__dirname, '..', '..', 'db', 'data.json');
 
-        fs.writeFileSync(pathDb, JSON.stringify(this.toJson));
+        fs.writeFileSync(pathDb, JSON.stringify(this.toJson, null, 4));
     }
 
     nextTicket() {
