@@ -28,6 +28,6 @@ module.exports = {
 
         const scripts = ['ticket-desktop.js'];
 
-        res.render(`ticket/tk-descktop`, {title, scripts, layout: 'ticket-main'});
+        res.render(`ticket/tk-desktop`, {title, scripts, layout: 'ticket-main'});
     },
 };

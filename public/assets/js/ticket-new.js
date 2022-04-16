@@ -16,10 +16,10 @@ ticket_sk.on('last-ticket', (payload) => {
 });
 
 BtnNewTicket.addEventListener('click', () => {
-    ticket_sk.emit('tk-next', null, (payload) => {
-        lblNewTicket.innerHTML = `Cargando...`;
+    ticket_sk.emit('tk-new', null, (payload) => {
+        lblNewTicket.innerHTML = `Loading...`;
         setTimeout(() => {
             lblNewTicket.innerHTML = payload;
-        }, 100);
+        }, 500);
     });
 });
