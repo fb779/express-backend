@@ -6,6 +6,12 @@
         "start:prod": "NODE_ENV=prod node ./bin/www",
         "start:dev": "NODE_ENV=dev nodemon ./bin/www"
     },
+    "nodemonConfig": {
+        "ignore": [
+            "public/**/**.js",
+            "db/*.json"
+        ]
+    },
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "cloudinary": "^1.29.0",
