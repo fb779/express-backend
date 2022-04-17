@@ -2,12 +2,17 @@ const path = require('path');
 const fs = require('fs');
 const {v4: uuid} = require('uuid');
 
+const pathFiles = {
+    pathDb: () => path.join(__dirname, '..', '..', 'db', `data.json`),
+    pathHistoryDb: (date) => path.join(__dirname, '..', '..', 'db', `data-hs-${date}.json`),
+};
+
 class Ticket {
     constructor(number, desktop) {
         this.uid = uuid();
         this.number = number;
         this.desktop = desktop;
-        this.creted = new Date().getTime();
+        this.created = new Date().getTime();
         this.attend = null;
     }
 }
@@ -15,11 +20,20 @@ class Ticket {
 class TicketControl {
     constructor() {
         this.last = 0;
-        this.toDay = new Date().getDate();
         this.tickets = [];
         this.lastFour = [];
+        this.history = [];
 
         this.init();
+    }
+
+    get toDay() {
+        return new Date().getDate();
+    }
+
+    get fullDate() {
+        const date = new Date();
+        return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
     }
 
     get toJson() {
@@ -28,25 +42,38 @@ class TicketControl {
             toDay: this.toDay,
             tickets: this.tickets,
             lastFour: this.lastFour,
+            history: this.history,
         };
     }
 
     init() {
-        const {toDay, last, tickets, lastFour} = require('../../db/data.json');
+        this._checkFiles();
+
+        const {toDay, last, tickets, lastFour, history} = require(pathFiles.pathDb());
+        const historical = require(pathFiles.pathHistoryDb(this.fullDate));
 
         if (toDay === this.toDay) {
             this.last = last;
             this.tickets = tickets;
             this.lastFour = lastFour;
+            this.history = history;
         } else {
+            this.last = historical[this.fullDate] ? historical[this.fullDate].length : 0;
+            this.history = historical[this.fullDate] ? historical[this.fullDate] : [];
             this.saveDb();
         }
+
+        this.saveHistoryDb();
     }
 
     saveDb() {
-        const pathDb = path.join(__dirname, '..', '..', 'db', 'data.json');
+        fs.writeFileSync(pathFiles.pathDb(), JSON.stringify(this.toJson, null, 4));
+    }
 
-        fs.writeFileSync(pathDb, JSON.stringify(this.toJson, null, 4));
+    saveHistoryDb() {
+        const history = Object.assign({}, {[this.fullDate]: this.history});
+
+        fs.writeFileSync(pathFiles.pathHistoryDb(this.fullDate), JSON.stringify(history, null, 4));
     }
 
     nextTicket() {
@@ -67,6 +94,7 @@ class TicketControl {
         ticket.attend = new Date().getTime();
 
         this._updateLastFour(ticket);
+        this._updateHistory(ticket);
 
         this.saveDb();
 
@@ -79,6 +107,21 @@ class TicketControl {
 
         if (this.lastFour.length > 4) {
             this.lastFour.pop();
+        }
+    }
+
+    _updateHistory(ticket) {
+        this.history.push(ticket);
+        this.saveHistoryDb();
+    }
+
+    _checkFiles() {
+        if (!fs.existsSync(pathFiles.pathDb())) {
+            fs.writeFileSync(pathFiles.pathDb(), JSON.stringify({}));
+        }
+
+        if (!fs.existsSync(pathFiles.pathHistoryDb(this.fullDate))) {
+            fs.writeFileSync(pathFiles.pathHistoryDb(this.fullDate), JSON.stringify({}));
         }
     }
 }
