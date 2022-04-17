@@ -1,0 +1,85 @@
+{{> header }}
+
+{{> navbar }}
+
+<!-- Content -->
+<!--
+    Note: To show a background image, set the "data-bg" attribute below
+    to the full filename of your image. This is used in each section to set
+    the background image.
+-->
+<section id='post' class='wrapper bg-img' data-bg='banner2.jpg' style="height: 100vh;">
+  <div class='inner'>
+    <article class='box'>
+      <header>
+        <h2>{{title}}</h2>
+      </header>
+      <div class='content'>
+            <div
+                id="g_id_onload"
+                data-client_id="{{client_id}}"
+                data-auto_prompt="false"
+                data-callback="handleCredentialResponse">
+            </div>
+            <div
+                class="g_id_signin"
+                data-type="standard"
+                data-size="large"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-shape="rectangular"
+                data-logo_alignment="left">
+            </div>
+
+            <div>
+                <button id="google_sign_out">Sign-Out</button>
+            </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script src="http://accounts.google.com/gsi/client" async defer></script>
+<script>
+
+    function handleCredentialResponse(response) {
+        // decodeJwtResponse() is a custom function defined by you
+        // to decode the credential response.
+
+        const id_token = response.credential;
+
+        fetch('http://localhost:3001/api/auth/google', {
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({id_token}),
+        })
+        .then( (resp) => resp.json())
+        .then((resp)=>{
+            console.log('llegada de la respuesta',resp)
+            const { user, token } = resp;
+            localStorage.setItem('email', user.email);
+            localStorage.setItem('token', token);
+        }).catch((error)=>{
+            console.log(error);
+        })
+    }
+
+    const signout = document.getElementById('google_sign_out');
+
+    signout.addEventListener('click', ()=>{
+        console.log('google account: ', google)
+
+        google.accounts.id.disableAutoSelect();
+
+        google.accounts.id.revoke( localStorage.getItem('email'), done => {
+            localStorage.clear();
+            location.reload();
+            alert('the current session was closed');
+        });
+    });
+
+
+
+</script>

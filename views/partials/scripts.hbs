@@ -3,4 +3,9 @@
 <script src='/assets/js/jquery.scrollex.min.js'></script>
 <script src='/assets/js/skel.min.js'></script>
 <script src='/assets/js/util.js'></script>
+<script src='/socket.io/socket.io.js'></script>
 <script src='/assets/js/main.js'></script>
+
+{{#each scripts}}
+    <script src='/assets/js/{{this}}'></script>
+{{/each}}

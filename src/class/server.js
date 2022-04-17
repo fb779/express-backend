@@ -1,5 +1,7 @@
 /** Imports */
 const path = require('path');
+const {createServer} = require('http');
+const io = require('socket.io');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -8,103 +10,149 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const {normalizePort} = require('../helpers/normalizePort');
+const {
+    server: {PORT, origin},
+} = require('../../config/config');
 
-const rootDirectory = path.join(__dirname, '..', '..');
+const {normalizePort} = require('../helpers');
+
+const {dbConnection} = require('../database/mongoose-config.db');
+
+const {GenericControllerSk, TicketControllerSk} = require('../sockets/controller.socket');
 
 const indexRouter = require('../routes/index');
 
+const rootDirectory = path.join(__dirname, '..', '..');
+
 class Server {
-  constructor() {
-    this.app = express();
+    constructor() {
+        this.app = express();
 
-    this.server = require('http').createServer(this.app);
+        this.server = createServer(this.app);
 
-    // Set the port value
-    this.definePort();
+        this.io = io(this.server);
 
-    // Middlewares
-    this.middlewares();
+        // Set the port value
+        this.definePort();
 
-    // View engine
-    this.viewEngine();
+        // Middlewares
+        this.middlewares();
 
-    // Routes
-    this.routes();
+        // View engine
+        this.viewEngine();
 
-    // Error handler routes
-    this.routesHandleError();
-  }
+        // Routes
+        this.routes();
 
-  /**
-   * Get port from environment and store in Express.
-   */
-  definePort() {
-    this.port = normalizePort(process.env.PORT || '3000');
-    this.app.set('port', this.port);
-  }
+        // Error handler routes
+        this.routesHandleError();
 
-  viewEngine() {
-    const hbs = exphbs.create({
-      defaultLayout: 'main.hbs',
-      layoutsDir: path.join(rootDirectory, 'views', 'layouts'),
-      partialsDir: path.join(rootDirectory, 'views', 'partials'),
-      extname: 'hbs',
-    });
+        // socket configurations
+        this.sockets();
+    }
 
-    // Define the name template engine
-    const hbsName = 'hbs';
+    /**
+     * Get port from environment and store in Express.
+     */
+    definePort() {
+        this.port = normalizePort(PORT);
+        if (!this.port) {
+            throw new Error(`Port is not define`);
+        }
+        this.app.set('port', this.port);
+    }
 
-    //Sets handlebars configurations (we will go through them later on)
-    this.app.engine(hbsName, hbs.engine);
+    viewEngine() {
+        const hbs = exphbs.create({
+            defaultLayout: 'main.hbs',
+            layoutsDir: path.join(rootDirectory, 'views', 'layouts'),
+            partialsDir: path.join(rootDirectory, 'views', 'partials'),
+            extname: 'hbs',
+        });
 
-    //Sets our app to use the handlebars engine
-    this.app.set('view engine', hbsName);
-  }
+        // Define the name template engine
+        const hbsName = 'hbs';
 
-  middlewares() {
-    this.app.use(logger('dev'));
+        //Sets handlebars configurations (we will go through them later on)
+        this.app.engine(hbsName, hbs.engine);
 
-    this.app.use(cors());
+        //Sets our app to use the handlebars engine
+        this.app.set('view engine', hbsName);
+    }
 
-    this.app.use(helmet());
+    middlewares() {
+        this.app.use(logger('dev'));
 
-    this.app.use(express.json());
+        this.app.use(cors({origin}));
 
-    this.app.use(express.urlencoded({extended: false}));
+        /**
+            BUG: login session with google has problems with helmet.
+            the google script to make a login need to be
+            helmet contentSecurityPolicy => no funciona la carga del script para el boton de google-sign-in
+            BUG: helmet not allow load bootstrat files throwgh CDN
+        */
 
-    this.app.use(cookieParser());
+        this.app.use(helmet());
+        // this.app.use(
+        //     helmet.contentSecurityPolicy({
+        //         directives: {
+        //             'script-src': ["'self'", "'unsafe-inline'", 'https://accounts.google.com'],
+        //             'frame-src': ["'self'", 'https://accounts.google.com'],
+        //         },
+        //     })
+        // );
 
-    this.app.use(express.static(path.join(rootDirectory, 'public')));
-  }
+        this.app.use(express.json());
 
-  routes() {
-    this.app.use('/', indexRouter);
-  }
+        this.app.use(express.urlencoded({extended: false}));
 
-  routesHandleError() {
-    // catch 404 and forward to error handler
-    this.app.use(function (req, res, next) {
-      next(createError(404));
-    });
+        this.app.use(cookieParser());
 
-    // error handler
-    this.app.use(function (err, req, res, next) {
-      // set locals, only providing error in development
-      res.locals.message = err.message;
-      res.locals.error = req.app.get('env') === 'development' ? err : {};
+        this.app.use(express.static(path.join(rootDirectory, 'public')));
+    }
 
-      // render the error page
-      res.status(err.status || 500);
-      res.render('error', {title: '404-Error'});
-    });
-  }
+    routes() {
+        this.app.use('/', indexRouter);
+    }
 
-  listen() {
-    this.server.listen(this.port, () => {
-      console.log(`Server runnign on port: ${this.port}`);
-    });
-  }
+    routesHandleError() {
+        // catch 404 and forward to error handler
+        this.app.use(function (req, res, next) {
+            req.originalUrl.includes('/api') ? next(createError(404, {message: `Invalid endpoint`})) : next(createError(404));
+        });
+
+        // error handler
+        this.app.use(function (err, req, res, next) {
+            // set locals, only providing error in development
+            res.locals.message = err.message;
+            res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+            // response error API
+            if (req.originalUrl.includes('/api')) {
+                res.status(err.status || 500).json({ok: false, message: err.message});
+                return;
+            }
+
+            // render the error page
+            res.status(err.status || 500).render('error', {title: 'Page not Found'});
+        });
+    }
+
+    sockets() {
+        // this.io.on('connection', (socket) => socketController(socket, this.io));
+        GenericControllerSk(this.io);
+        TicketControllerSk(this.io);
+    }
+
+    async listen() {
+        /** Database conecction */
+        await dbConnection();
+
+        /** Start to listen server */
+        this.server.listen(this.port, () => {
+            console.log(`Server runnign on port: ${this.port}`);
+        });
+    }
 }
 
 module.exports = Server;
