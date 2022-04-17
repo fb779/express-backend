@@ -18,7 +18,9 @@ module.exports = {
     // },
 
     GenericControllerSk: (io) => {
-        io.on('connection', (client) => {
+        // const generic = io.of('/');
+        const generic = io;
+        generic.on('connection', (client) => {
             console.log('conectado al socket generico: ', client.id);
 
             client.on('disconnect', () => {
@@ -36,7 +38,8 @@ module.exports = {
     },
 
     TicketControllerSk: (io) => {
-        io.of('/tickets').on('connection', (socket) => TicketSocketController(socket, io));
+        const ticketSK = io.of('/tickets');
+        ticketSK.on('connection', (socket) => TicketSocketController(socket, ticketSK));
     },
 
     // ChatControllerSk: (io) => {
