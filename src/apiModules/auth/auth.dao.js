@@ -66,4 +66,17 @@ module.exports = {
             }
         });
     },
+
+    renewToken: (user) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // TODO: generate jwt
+                const token = await generateJWT({uid: user.uid});
+
+                resolve(token);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
 };

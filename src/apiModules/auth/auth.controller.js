@@ -1,5 +1,5 @@
 const {response} = require('express');
-const {loginEmailPassword, signInGoolgeAccount} = require('./auth.dao');
+const {loginEmailPassword, signInGoolgeAccount, renewToken} = require('./auth.dao');
 
 module.exports = {
     login: async (req, res = response, next) => {
@@ -26,7 +26,15 @@ module.exports = {
         }
     },
 
-    // siging: async (req, res, next) => {},
+    renewToken: async (req, res, next) => {
+        try {
+            const {user} = req;
 
-    // logout: async (req, res, next) => {},
+            const token = await renewToken(user);
+
+            res.json(Object.assign({}, {token, user}));
+        } catch (error) {
+            next(error);
+        }
+    },
 };
