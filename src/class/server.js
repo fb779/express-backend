@@ -18,7 +18,7 @@ const {normalizePort} = require('../helpers');
 
 const {dbConnection} = require('../database/mongoose-config.db');
 
-const {GenericControllerSk, TicketControllerSk} = require('../sockets/controller.socket');
+const {GenericControllerSk, TicketControllerSk, ChatControllerSk} = require('../sockets/controller.socket');
 
 const indexRouter = require('../routes/index');
 
@@ -145,6 +145,7 @@ class Server {
         // this.io.on('connection', (socket) => socketController(socket, this.io));
         GenericControllerSk(this.io);
         TicketControllerSk(this.io);
+        ChatControllerSk(this.io);
     }
 
     async listen() {
