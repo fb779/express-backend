@@ -1,24 +1,58 @@
-/**
- * Socket client
- */
-
-// const socket = io();
-
-// socket.on('connect', () => {
-//     console.log(`conectado al servidor`);
-// });
-
-// socket.on('disconnect', () => {
-//     console.log(`desconectado del servidor`);
-// });
+let user = null;
 
 const checkLoginUser = () => {
     const token = localStorage.getItem('token');
+    const urlAuth = `${window.location.origin}/api/auth`;
 
-    return token;
+    fetch(urlAuth, {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-token': token,
+        },
+        method: 'GET',
+    })
+        .then(async (resp) => {
+            if (!resp.ok) {
+                Promise.reject(Object.assign({}, {status: resp.status, statusText: resp.statusText}, await resp.json()));
+            }
+            return resp.json();
+        })
+        .then(({user, token}) => {
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
+            document.title = `${document.title} - ${user.first_name} ${user.last_name}`;
+        })
+        .catch((err) => {
+            console.log(err);
+            localStorage.clear();
+            location.href = '/web-chat';
+        });
 };
-const init = () => {
-    const token = checkLoginUser();
+
+const connectSocket = () => {
+    /**
+     * Socket client
+     */
+    const token = localStorage.getItem('token');
+
+    const socket = io('/chat', {
+        extraHeaders: {
+            'x-token': token,
+        },
+    });
+
+    socket.on('connect', () => {
+        console.log(`conectado al servidor`);
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`desconectado del servidor`);
+    });
+};
+
+const init = async () => {
+    checkLoginUser();
+    connectSocket();
 };
 
 init();
