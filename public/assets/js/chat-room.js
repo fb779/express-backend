@@ -17,8 +17,9 @@ const checkLoginUser = () => {
             }
             return resp.json();
         })
-        .then(({user, token}) => {
-            localStorage.setItem('user', JSON.stringify(user));
+        .then(({user: usDb, token}) => {
+            // localStorage.setItem('user', JSON.stringify(user));
+            user = usDb;
             localStorage.setItem('token', token);
             document.title = `${document.title} - ${user.first_name} ${user.last_name}`;
         })

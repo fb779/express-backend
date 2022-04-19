@@ -30,9 +30,7 @@ const login = () => {
                 }
                 return resp.json();
             })
-            .then(({ok, message, token, user}) => {
-                // const {user, token} = data;
-                // localStorage.setItem('user', JSON.stringify(user));
+            .then(({token}) => {
                 localStorage.setItem('token', token);
                 location.href = '/web-chat/room';
             })

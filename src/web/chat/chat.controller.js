@@ -13,7 +13,7 @@ module.exports = {
     },
 
     chat_room: (req, res, next) => {
-        const title = 'Chat Roome';
+        const title = 'Chat Room';
 
         const styles = ['chat.css'];
         const scripts = ['chat-room.js'];

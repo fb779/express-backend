@@ -16,7 +16,7 @@ function handleCredentialResponse(response) {
         .then(({user, token}) => {
             // localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('token', token);
-            location.href = '/wb-chat/room';
+            location.href = '/web-chat/room';
         })
         .catch((error) => {
             console.log(error);
