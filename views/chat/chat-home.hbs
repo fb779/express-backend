@@ -1,0 +1,45 @@
+<main class='container d-flex justify-content-center align-items-center' style='height: 100vh;'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-6 my-2 d-flex justify-content-center align-items-center'>
+            {{! <div class='card' style='width: 20rem;'> }}
+            {{! <div class='card-body'> }}
+            <ul class='list-group' style='width: 20rem;'>
+                <li class='list-group-item d-flex justify-content-center align-items-center'>
+
+                    <div id='g_id_onload' data-client_id='{{client_id}}' data-auto_prompt='false' data-callback='handleCredentialResponse'> </div>
+                    <div class='g_id_signin' data-type='standard' data-size='large' data-theme='outline' data-text='sign_in_with' data-shape='rectangular' data-logo_alignment='left'> </div>
+                </li>
+                <li class='list-group-item'>
+                    <div class='d-grid mx-auto'>
+                        <button type='button' class='btn btn-primary' id='google_sign_out'>Sign-Out</button>
+                    </div>
+                </li>
+            </ul>
+            {{! </div> }}
+            {{! </div> }}
+        </div>
+        <div class='col-sm-12 col-md-6 my-2 d-flex justify-content-center align-items-center'>
+            <div class='card border-primary' style='width: 20rem;'>
+                <div class='card-body'>
+                    <form>
+                        <div class='mb-3'>
+                            {{! <label for='email' class='form-label'>Email</label> }}
+                            <input type='email' class='form-control' id='email' name='email' aria-describedby='emailHelp' placeholder='Email' />
+                            {{! <div id='emailHelp' class='form-text text-dark'>We'll never share your email with anyone else.</div> }}
+                        </div>
+                        <div class='mb-3'>
+                            {{! <label for='password' class='form-label'>Password</label> }}
+                            <input type='password' class='form-control' id='password' name='password' placeholder='Password' />
+                        </div>
+                        <div class='d-grid mx-auto'>
+                            <button type='submit' class='btn btn-primary'>Entry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src='https://accounts.google.com/gsi/client' async defer></script>

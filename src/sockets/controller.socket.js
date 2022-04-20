@@ -1,4 +1,5 @@
 const {TicketSocketController} = require('./tickets/ticket.socket');
+const {ChatSocketController} = require('./chat/chat.socket');
 
 module.exports = {
     // socketController: (client, io) => {
@@ -42,7 +43,8 @@ module.exports = {
         ticketSK.on('connection', (socket) => TicketSocketController(socket, ticketSK));
     },
 
-    // ChatControllerSk: (io) => {
-    //     io.of('/chat').on('connection', (socket) => ChatSocketController(socket, io));
-    // },
+    ChatControllerSk: (io) => {
+        const chatSK = io.of('/chat');
+        chatSK.on('connection', (socket) => ChatSocketController(socket, chatSK));
+    },
 };
