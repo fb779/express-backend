@@ -1,3 +1,7 @@
+p {
+    margin: 0;
+}
+
 main {
     min-width: 500px;
     min-height: 400px;
@@ -20,14 +24,42 @@ main {
     padding: 0.5rem;
     grid-area: users;
 }
+
 #msg {
     border-radius: 0.5rem;
     padding: 0.5rem;
     grid-area: msg;
-    overflow-y: scroll;
+    overflow: scroll;
 }
+
 #box {
     border-radius: 0.5rem;
     padding: 0.5rem;
     grid-area: box;
+}
+
+.profile {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 'pr-img pr-data ';
+    grid-gap: 1rem;
+    justify-items: stretch;
+    align-items: center;
+}
+
+.pr-image {
+    grid-area: pr-img;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+.pr-image > img {
+    width: 100%;
+    /* object-fit: contain; */
+}
+
+.pr-data {
+    grid-area: pr-data;
 }

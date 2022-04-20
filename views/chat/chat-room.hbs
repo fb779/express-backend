@@ -1,31 +1,14 @@
 <main class='container-fluid p-3 d-flex justify-content-center align-items-center' style='height: 100vh;'>
     <div class='card border-primary' style='width: 100%; height: 100%;'>
-        {{! <div class='card-header'>
-            <h4 class='header-title'>Chat Web - room</h4>
-        </div> }}
         <div class='card-body card-body-grid'>
-            <div class='card border-primary' id='users'>
-                <div class='card-body'>
+            <ul class='list-group' id='listUsers'> </ul>
 
-                </div>
-            </div>
-            <div class='card border-gray' id='msg'>
-                <div class='card-body'>
-
-                </div>
-            </div>
+            <div class='card border-gray' id='msg'> </div>
 
             <div class='card border-info' id='box'>
                 <div class='card-body'>
                     <div class='input-group'>
-                        <input type='text' class='form-control' aria-label='Text input with dropdown button' />
-                        <button class='btn btn-outline-secondary' type='button'>Button</button>
-                        {{! <select class='form-select' id='inputGroupSelect04' aria-label='Example select with button addon'>
-                        <option selected>All</option>
-                        <option value='1'>user - 1</option>
-                        <option value='2'>user - 2</option>
-                        <option value='3'>user - 3</option>
-                    </select> }}
+                        <input id='message' type='text' class='form-control' aria-label='Text input with dropdown button' />
                     </div>
                 </div>
             </div>
