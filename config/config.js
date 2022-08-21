@@ -10,6 +10,7 @@ module.exports = {
         origin: (() => {
             return process.env.ORIGIN ? process.env.ORIGIN.split(',').filter((item) => item.trim() != '') : false;
         })(),
+        titleApp: 'My App',
     },
     db: {
         mongooseConfig: {
