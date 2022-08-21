@@ -73,6 +73,7 @@ const connectSocket = () => {
 
 const drawMessages = (ltMessages = []) => {
     console.log('llegada de los mensajes', ltMessages);
+    var options = {year: 'numeric', month: 'long', day: 'numeric'};
 
     let msgHtml = '';
 
@@ -87,7 +88,7 @@ const drawMessages = (ltMessages = []) => {
                         ${el.name}
                     </label>
                     <span class="text-dark text-opacity-50">
-                        ${date.toString()}
+                        ${date.toLocaleString('en-US', options)}
                     </span>
                 </p>
             </div>

@@ -15,7 +15,7 @@
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
-        "cloudinary": "^1.29.1",
+        "cloudinary": "^1.29.0",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dayjs": "^1.11.1",
@@ -31,8 +31,8 @@
         "mongoose": "^6.3.1",
         "mongoose-unique-validator": "^3.0.0",
         "morgan": "^1.10.0",
-        "nodemailer": "^6.7.3",
-        "socket.io": "^4.5.0",
+        "nodemailer": "^6.7.2",
+        "socket.io": "^4.4.1",
         "uuid": "^8.3.2"
     },
     "devDependencies": {

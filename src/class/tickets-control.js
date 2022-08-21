@@ -3,7 +3,7 @@ const fs = require('fs');
 const {v4: uuid} = require('uuid');
 
 const pathFiles = {
-    pathDb: () => path.join(__dirname, '..', '..', 'db', `data.json`),
+    pathDb: () => path.join(__dirname, '..', '..', 'db', 'data.json'),
     pathHistoryDb: (date) => path.join(__dirname, '..', '..', 'db', `data-hs-${date}.json`),
 };
 
@@ -49,7 +49,7 @@ class TicketControl {
     init() {
         this._checkFiles();
 
-        const {toDay, last, tickets, lastFour, history} = require(pathFiles.pathDb());
+        const {toDay = null, last = null, tickets = [], lastFour = [], history = []} = require(pathFiles.pathDb());
         const historical = require(pathFiles.pathHistoryDb(this.fullDate));
 
         if (toDay === this.toDay) {

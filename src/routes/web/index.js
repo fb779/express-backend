@@ -1,21 +1,22 @@
 const {Router} = require('express');
 
 const {
+    server: {titleApp},
     google: {client_id},
 } = require('../../../config/config');
 
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.render('index', {title: 'Main App'});
+    res.render('index', {title: titleApp});
 });
 
 router.get('/generic', (req, res) => {
-    res.render('generic', {title: 'Main App'});
+    res.render('generic', {title: titleApp});
 });
 
 router.get('/elements', (req, res) => {
-    res.render('elements', {title: 'Main App'});
+    res.render('elements', {title: titleApp});
 });
 
 router.get('/chat', (req, res) => {

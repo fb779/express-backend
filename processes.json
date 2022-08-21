@@ -1,0 +1,19 @@
+{
+    "apps": [
+        {
+            "name": "api",
+            "script": "./bin/www",
+            "instances": 1,
+            "autorestart": true,
+            "wait_ready": false,
+            "watch": true,
+            "ignore_watch": ["pm2Logs", "node_modules", "db", "public", "tmp", "uploads"],
+            "error_file": "/opt/pm2Logs/err.log",
+            "out_file": "/opt/pm2Logs/out.log",
+            "log_file": "/opt/pm2Logs/combined.log",
+            "env": {
+                "DB_URL": "mongodb://mongodb:27017/baseapp"
+            }
+        }
+    ]
+}
