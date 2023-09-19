@@ -5,12 +5,15 @@
     "scripts": {
         "start": "node ./bin/www",
         "start:prod": "NODE_ENV=prod node ./bin/www",
-        "start:dev": "NODE_ENV=dev nodemon ./bin/www"
+        "start:dev": "NODE_ENV=dev nodemon ./bin/www",
+        "pm2": "pm2 start processes.json --no-daemon"
     },
     "nodemonConfig": {
         "ignore": [
+            "db/*.json",
             "public/**/**.js",
-            "db/*.json"
+            "tmp/*.*",
+            "uploads/**/*.*"
         ]
     },
     "dependencies": {
@@ -22,18 +25,17 @@
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
         "express-fileupload": "^1.4.0",
-        "express-handlebars": "^6.0.6",
-        "express-validator": "^6.14.2",
+        "express-handlebars": "^7.0.1",
+        "express-validator": "^7.0.1",
         "google-auth-library": "^8.1.1",
-        "helmet": "^5.1.0",
+        "helmet": "^7.0.0",
         "http-errors": "^2.0.0",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.4.6",
-        "mongoose-unique-validator": "^3.1.0",
+        "jsonwebtoken": "^9.0.0",
+        "mongoose": "^7.0.1",
         "morgan": "^1.10.0",
         "nodemailer": "^6.7.7",
         "socket.io": "^4.5.1",
-        "uuid": "^8.3.2"
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
         "debug": "^4.3.3"

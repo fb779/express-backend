@@ -167,6 +167,7 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 
 .vscode-test
+.vscode/
 
 # yarn v2
 
@@ -179,8 +180,10 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node,git
 
 # Package-lock.json
-
 package-lock.json
+
+# PM2 config file processes.json
+processes.json
 
 # Ignore all files and directories inside the uploads folder, exept .gitkeep
 uploads/**/**.*
