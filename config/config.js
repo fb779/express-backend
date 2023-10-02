@@ -4,6 +4,8 @@ const booleanNormalize = (value) => {
     return value === 'true';
 };
 
+const ROOT_DIR = path.join(__dirname, '..', 'src');
+
 module.exports = {
     server: {
         PORT: process.env.PORT || 3000,
@@ -33,6 +35,7 @@ module.exports = {
         DEFAULT_LIMIT: 10,
     },
     google: {
+        google_src: process.env.GOOGLE_SRC,
         client_id: process.env.CLIENT_ID,
         client_secret: process.env.CLIENT_SECRET,
     },
@@ -53,5 +56,9 @@ module.exports = {
             users: 'users',
             category: 'category',
         },
+    },
+    routes_dir: {
+        apiRoutes: path.join(ROOT_DIR, 'apiModules'),
+        // web: path.join(ROOT_DIR, 'webModules'),
     },
 };

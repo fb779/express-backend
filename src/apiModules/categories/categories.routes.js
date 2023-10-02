@@ -1,12 +1,14 @@
 const {Router} = require('express');
 
-const {checkPagination, validRole} = require('../../middleware');
+const {validateJWT, checkPagination, validRole} = require('../../middleware');
 
 const {checkQueryFilters} = require('./middleware/filters.middleware');
 const {categoryValidateCreate, categoryValidateUpdate, categoryValidateId} = require('./validators/categories.validator');
 const {getCategory, getCategoryList, createCategory, updateCategory, deleteCategory} = require('./categories.controller');
 
 const router = Router();
+
+router.use(validateJWT);
 
 router.get('/', [checkPagination, checkQueryFilters], getCategoryList);
 

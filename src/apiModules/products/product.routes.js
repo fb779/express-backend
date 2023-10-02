@@ -1,12 +1,14 @@
 const {Router} = require('express');
 
-const {checkPagination, validRole} = require('../../middleware');
+const {checkPagination, validRole, validateJWT} = require('../../middleware');
 
 const {checkQueryFilters} = require('./middleware/filters.middleware');
 const {productValidateCreate, productValidateUpdate, productValidateId} = require('./validators/product.validator');
 const {getProduct, getProductList, createProduct, updateProduct, deleteProduct} = require('./product.controller');
 
 const router = Router();
+
+router.use(validateJWT);
 
 router.get('/', [checkPagination, checkQueryFilters], getProductList);
 
