@@ -1,0 +1,69 @@
+main {
+    min-width: 500px;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    display: grid;
+    height: 100%;
+    grid-template-areas:
+        'tk-1 tk-2'
+        'tk-1 tk-3'
+        'tk-1 tk-4';
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+}
+
+.ticket-item {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.principal-ticket{
+    background-color: #291d1d9f;
+    font-size: 60px;
+}
+
+.secondary-ticket{
+    background-color: #157cb896;
+    font-size: 30px;
+}
+
+.card > .card-body{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ticket-1 {
+    grid-area: tk-1;
+}
+.ticket-2 {
+    grid-area: tk-2;
+}
+.ticket-3 {
+    grid-area: tk-3;
+}
+.ticket-4 {
+    grid-area: tk-4;
+}
+
+@media screen and (max-width: 780px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card > .card-body{
+        gap: 1rem;
+    }
+
+    .principal-ticket{
+        background-color: #291d1d9f;
+        font-size: 30px;
+    }
+    
+    .secondary-ticket{
+        background-color: #157cb896;
+        font-size: 20px;
+    }
+}

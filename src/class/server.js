@@ -93,7 +93,48 @@ class Server {
         */
 
         // FIX: coment helmet library to make
-        // this.app.use(helmet());
+        // const helmetOpts = {
+        //     contentSecurityPolicy: {
+        //         directives: {
+        //             defaultSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'accounts.google.com', 'ssl.gstatic.com'],
+        //             scriptSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'accounts.google.com', 'ssl.gstatic.com'],
+        //             styleSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'cdn.jsdelivr.net', 'accounts.google.com', 'ssl.gstatic.com'],
+        //             imgSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'cdn.jsdelivr.net', 'accounts.google.com', 'ssl.gstatic.com'],
+        //             connectSrc: ["'self'", 'accounts.google.com', 'ssl.gstatic.com'],
+        //             fontSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'accounts.google.com'],
+        //             objectSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'cdn.jsdelivr.net', 'accounts.google.com', 'ssl.gstatic.com'],
+        //             mediaSrc: ["'self'"],
+        //             frameSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com', 'cdn.jsdelivr.net', 'accounts.google.com', 'ssl.gstatic.com'],
+        //             sandbox: null,
+        //             reportUri: null,
+        //             childSrc: ['self'],
+        //             formAction: ["'self'", 'accounts.google.com', 'ssl.gstatic.com'],
+        //             frameAncestors: ["'none'"],
+        //             pluginTypes: null,
+        //             baseUri: null,
+        //             reportTo: null,
+        //             workerSrc: null,
+        //             manifestSrc: null,
+        //             prefetchSrc: null,
+        //             navigateTo: null,
+        //         },
+        //     },
+        //     crossOriginEmbedderPolicy: {policy: 'credentialless'},
+        //     crossOriginOpenerPolicy: {policy: 'same-origin-allow-popups'},
+        //     crossOriginResourcePolicy: {policy: 'same-site'},
+        //     //OriginAgentCluster:false,
+        //     referrerPolicy: {
+        //         policy: ['origin'],
+        //     },
+        //     StrictTransportSecurity: false,
+        //     // XContentTypeOptions:false,
+        //     XDNSPrefetchControl: false,
+        //     //XDownloadOptions:false,
+        //     // XFrameOptions:false,
+        //     // XPermittedCrossDomainPolicies:false,
+        //     xPoweredBy: false,
+        // };
+        // this.app.use(helmet(helmetOpts));
 
         // FIX: test implementation of helmet
         // this.app.use(
@@ -104,6 +145,7 @@ class Server {
         //         },
         //     })
         // );
+        this.app.disable('x-powered-by');
 
         this.app.use(express.json());
 
@@ -112,6 +154,12 @@ class Server {
         this.app.use(cookieParser());
 
         this.app.use(express.static(path.join(rootDirectory, 'public')));
+
+        // TODO: Provar si el io llega en todas las peticiones REST
+        // this.app.use((req, res, next)=>{
+        //     req.io = this.io;
+        //     next()
+        // })
     }
 
     routes() {
@@ -151,7 +199,7 @@ class Server {
 
         /** Start to listen server */
         this.server.listen(this.port, () => {
-            console.log(`Server runnign on port: ${this.port}`);
+            console.log(`Server runnign on port: http://localhost:${this.port}`);
         });
     }
 }

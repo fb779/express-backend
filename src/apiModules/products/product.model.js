@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const mongooseUniqueValidator = require('mongoose-unique-validator');
-
 const UserModel = require('./../users/user.model');
 const CategoryModel = require('./../categories/categories.model');
 
@@ -18,8 +16,6 @@ const ProductSchema = new Schema(
     },
     {collection: 'products', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
-
-// ProductSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
 
 ProductSchema.path('user').validate(async function (value) {
     const val = await UserModel.findById(value);

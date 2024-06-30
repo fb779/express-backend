@@ -1,38 +1,49 @@
-<main>
+{{! <main class='main'>
+    <section class="ticket-item ticket-1 principal-ticket">
+        <span id="lblTicket1"></span>
+        <span id="lblEscritorio1"></span>
+    </section>
+    
+    <section class="ticket-item ticket-2 secondary-ticket">
+        <span id="lblTicket2"></span>
+        <span id="lblEscritorio2"></span>
+    </section>
+    
+    <section class="ticket-item ticket-3 secondary-ticket">
+        <span id="lblTicket3"></span>
+        <span id="lblEscritorio3"></span>
+    </section>
+    
+    <section class="ticket-item ticket-4 secondary-ticket">
+        <span id="lblTicket4"></span>
+        <span id="lblEscritorio4"></span>
+    </section>
+</main> }}
 
-    <table>
-        <tr>
-            <td valign='middle' class='ticket-actual'>
-                <span id='lblTicket1' class='ticket-actual-numero'></span>
-                <br />
-                <span id='lblEscritorio1' class='ticket-actual-escritorio'></span>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td>
-                            <span id='lblTicket2' class='ticket-secundario'></span>
-                            <br />
-                            <span id='lblEscritorio2'></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span id='lblTicket3' class='ticket-secundario'></span>
-                            <br />
-                            <span id='lblEscritorio3'></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span id='lblTicket4' class='ticket-secundario'></span>
-                            <br />
-                            <span id='lblEscritorio4'></span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<main>
+    <div class='card bg-dark text-withe ticket-item ticket-1 principal-ticket'>
+        <div class='card-body'>
+            <span id='lblTicket1'></span>
+            <span id='lblEscritorio1'></span>
+        </div>
+    </div>
+    <div class='card bg-primary text-white ticket-item secondary-ticket ticket-2'>
+        <div class='card-body'>
+            <span id='lblTicket2'></span>
+            <span id='lblEscritorio2'></span>
+        </div>
+    </div>
+    <div class='card bg-primary text-white ticket-item secondary-ticket ticket-3'>
+        <div class='card-body'>
+            <span id='lblTicket3'></span>
+            <span id='lblEscritorio3'></span>
+        </div>
+    </div>
+    <div class='card bg-primary text-white ticket-item secondary-ticket ticket-4'>
+        <div class='card-body'>
+            <span id='lblTicket4'></span>
+            <span id='lblEscritorio4'></span>
+        </div>
+    </div>
 
 </main>

@@ -1,0 +1,27 @@
+main {
+    min-width: 500px;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    place-content: center;
+    font-size: 40px;
+}
+
+@media screen and (max-width: 780px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .principal-ticket{
+        background-color: #291d1d9f;
+        font-size: 30px;
+    }
+    
+    .secondary-ticket{
+        background-color: #157cb896;
+        font-size: 15px;
+    }
+}

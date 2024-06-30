@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongooseUniqueValidator = require('mongoose-unique-validator');
 
 const RoleModel = require('./../roles/role.model');
 
@@ -20,8 +19,6 @@ const UserSchema = new Schema(
     },
     {collection: 'users', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
-
-// UserSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
 
 UserSchema.path('role').validate(async function (value) {
     const val = await RoleModel.findById(value);

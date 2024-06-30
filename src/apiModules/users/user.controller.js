@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const {getCount, getUserList, getUserById, createUser, updateUser, deleteUser} = require('./user.dao');
 const {UserCreateDTO} = require('./user.dto');
+const Notifier = require('../../class/notifications');
 
 module.exports = {
     getUser: async (req, res, next) => {
@@ -14,6 +15,9 @@ module.exports = {
                 // return next(createError(404));
             }
 
+            //   Notifier.socket().emit("cosa-prueba", { description: "get one user", data, });
+            Notifier.emit({payload: data});
+
             res.json(data);
         } catch (error) {
             next(error);
@@ -25,6 +29,9 @@ module.exports = {
             const {filters, pagination} = req;
 
             const [total, data] = await Promise.all([getCount(filters), getUserList(filters, pagination)]);
+
+            Notifier.emit({payload: data});
+            // io.of('/tickets').emit('cosa-prueba', {data, aditional:'algo para comprobar'});
 
             res.json({total, data, pagination});
         } catch (error) {
@@ -72,6 +79,11 @@ module.exports = {
             } = req;
 
             const data = await deleteUser(id);
+
+            //   Notifier.socket.emit("cosa-prueba", {
+            //     description: "delete user",
+            //     data,
+            //   });
 
             // if (!data) {
             //     throw createError(400, {message: 'Invalid information'});

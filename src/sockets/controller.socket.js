@@ -1,5 +1,6 @@
 const {TicketSocketController} = require('./tickets/ticket.socket');
 const {ChatSocketController} = require('./chat/chat.socket');
+const Notifier = require('../class/notifications');
 
 const GenericControllerSk = (io) => {
     // const generic = io.of('/');
@@ -24,6 +25,7 @@ const GenericControllerSk = (io) => {
 const TicketControllerSk = (io) => {
     const ticketSK = io.of('/tickets');
     ticketSK.on('connection', (socket) => TicketSocketController(socket, ticketSK));
+    Notifier.setInstance(ticketSK);
 };
 
 const ChatControllerSk = (io) => {

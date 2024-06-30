@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema, model} = mongoose;
 
-const mongooseUniqueValidator = require('mongoose-unique-validator');
-
 const RoleSchema = new Schema(
     {
         name: {type: String, required: true, unique: true},
@@ -10,8 +8,6 @@ const RoleSchema = new Schema(
     },
     {collection: 'role', timestamps: true, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true}}
 );
-
-// RoleSchema.plugin(mongooseUniqueValidator, {message: `The {PATH} - '{VALUE}': is not unique`});
 
 /**
  * virtual fields

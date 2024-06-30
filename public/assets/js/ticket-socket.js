@@ -7,3 +7,7 @@ ticket_sk.on('connect', () => {
 ticket_sk.on('disconnect', () => {
     console.log(`desconectado del servidor de tickets`);
 });
+
+ticket_sk.on('cosa-prueba', (payload) => {
+    console.log(`Prueba de carga`, payload);
+});

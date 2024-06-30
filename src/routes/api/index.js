@@ -26,6 +26,6 @@ const router = Router();
  */
 const {includeAllRoutes} = require('../../helpers/load-routes');
 
-includeAllRoutes(router, apiRoutes);
+includeAllRoutes({router, routerPath: apiRoutes});
 
 module.exports = router;

@@ -2,7 +2,7 @@ const {Router} = require('express');
 
 const {
     server: {titleApp},
-    google: {client_id},
+    google: {client_id, google_src},
 } = require('../../../config/config');
 
 const router = Router();
@@ -26,7 +26,7 @@ router.get('/chat', (req, res) => {
 });
 
 router.get('/google-sign-in', (req, res) => {
-    res.render('google', {title: 'Google Sign In', client_id});
+    res.render('google', {google_src, title: 'Google Sign In', client_id});
 });
 
 router.use('/web-chat', require('../../web/chat/chat.routes'));

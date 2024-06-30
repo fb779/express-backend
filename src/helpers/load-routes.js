@@ -1,7 +1,8 @@
+const {Router} = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const includeAllRoutes = (router = Router(), routerPath) => {
+const includeAllRoutes = ({router = Router(), routerPath = ''}) => {
     const readAllPaths = (rootPath, arrayOfFiles = []) => {
         const files = fs.readdirSync(rootPath);
 

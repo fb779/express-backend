@@ -19,24 +19,26 @@ const lblEscritorio4 = document.querySelector('#lblEscritorio4');
 
 ticket_sk.on('last-four', (payload) => {
     const [tk1, tk2, tk3, tk4] = payload;
+    const title = 'Ticket';
+    const desk = 'Desktop';
 
     if (tk1) {
-        lblTicket1.innerHTML = `Ticket: ${tk1.number}`;
-        lblEscritorio1.innerHTML = `Desktop: ${tk1.desktop}`;
+        lblTicket1.innerHTML = `${title}: ${tk1.number}`;
+        lblEscritorio1.innerHTML = `${desk}: ${tk1.desktop}`;
     }
 
     if (tk2) {
-        lblTicket2.innerHTML = `Ticket: ${tk2.number}`;
-        lblEscritorio2.innerHTML = `Desktop: ${tk2.desktop}`;
+        lblTicket2.innerHTML = `${title}: ${tk2.number}`;
+        lblEscritorio2.innerHTML = `${desk}: ${tk2.desktop}`;
     }
 
     if (tk3) {
-        lblTicket3.innerHTML = `Ticket: ${tk3.number}`;
-        lblEscritorio3.innerHTML = `Desktop: ${tk3.desktop}`;
+        lblTicket3.innerHTML = `${title}: ${tk3.number}`;
+        lblEscritorio3.innerHTML = `${desk}: ${tk3.desktop}`;
     }
 
     if (tk4) {
-        lblTicket4.innerHTML = `Ticket: ${tk4.number}`;
-        lblEscritorio4.innerHTML = `Desktop: ${tk4.desktop}`;
+        lblTicket4.innerHTML = `${title}: ${tk4.number}`;
+        lblEscritorio4.innerHTML = `${desk}: ${tk4.desktop}`;
     }
 });
