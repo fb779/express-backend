@@ -3,13 +3,13 @@ const {
     routes_dir: {apiRoutes},
 } = require('../../../config/config');
 
-// const {validateJWT} = require('../../middleware');
-
-const router = Router();
-
 /**
  * Routes manually
  */
+
+// const router = Router();
+
+// const {validateJWT} = require('../../middleware');
 // router.use('/auth', require('../../apiModules/auth/auth.routes'));
 
 // router.use(validateJWT);
@@ -26,6 +26,4 @@ const router = Router();
  */
 const {includeAllRoutes} = require('../../helpers/load-routes');
 
-includeAllRoutes({router, routerPath: apiRoutes});
-
-module.exports = router;
+module.exports = includeAllRoutes({routerPath: apiRoutes});

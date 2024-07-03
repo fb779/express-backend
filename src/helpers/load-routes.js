@@ -2,7 +2,8 @@ const {Router} = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const includeAllRoutes = ({router = Router(), routerPath = ''}) => {
+const includeAllRoutes = ({routerPath = ''}) => {
+    const loadingRouter = Router();
     const readAllPaths = (rootPath, arrayOfFiles = []) => {
         const files = fs.readdirSync(rootPath);
 
@@ -27,13 +28,15 @@ const includeAllRoutes = ({router = Router(), routerPath = ''}) => {
     allRoutes.forEach(({prefix, pathFile}) => {
         console.log(`Prefix: ${prefix} => Origin file: ${pathFile.split('/').pop()}`);
         try {
-            router.use(`/${prefix}`, require(pathFile));
+            loadingRouter.use(`/${prefix}`, require(pathFile));
         } catch (error) {
             // console.log(error);
             const fileName = pathFile.split('/').pop();
             throw new Error(`${error.message} - Problems to load router from: ${fileName}`);
         }
     });
+
+    return loadingRouter;
 };
 
 module.exports = {includeAllRoutes};

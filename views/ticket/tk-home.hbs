@@ -1,22 +1,17 @@
-<main class='container'>
-    <h1 class='mt-5'>Programa de Colas</h1>
+<main class=''>
+    <h1 class='title mt-5'>Programa de Colas</h1>
+    <sections class='links'>
+        <a class='btn btn-primary' href='/ticket/screen'>Pantalla publica</a>
+        <a class='btn btn-secondary' href='/ticket/new-ticket'>Crear Tickets</a>
+    </sections>
+    <sections class='form'>
+        <form action='/ticket/desktop'>
+            <input name='dsk' type='text' class='form-control' placeholder='Desktop' autofocus required />
+            <br />
+            <button type='submit' class='btn btn-primary'>
+                Ingresar
+            </button>
+        </form>
+    </sections>
 
-    <div class='row'>
-        <div class='col-6'>
-
-            <a class='btn btn-primary' href='/ticket/screen'>Pantalla publica</a>
-            <a class='btn btn-secondary' href='/ticket/new-ticket'>Crear Tickets</a>
-
-        </div>
-
-        <div class='col-6'>
-            <form action='/ticket/desktop'>
-                <input name='dsk' type='text' class='form-control' placeholder='Desktop' autofocus required />
-                <br />
-                <button type='submit' class='btn btn-primary'>
-                    Ingresar
-                </button>
-            </form>
-        </div>
-    </div>
 </main>

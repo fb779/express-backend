@@ -11,8 +11,9 @@ module.exports = {
         const title = 'Tickets';
 
         const scripts = ['ticket-socket.js'];
+        const styles = ['ticket-home.css'];
 
-        res.render(`ticket/tk-home`, {title, scripts, layout: 'ticket-main'});
+        res.render(`ticket/tk-home`, {title, styles, scripts, layout: 'ticket-main'});
     },
 
     ticket_new: (req, res) => {
